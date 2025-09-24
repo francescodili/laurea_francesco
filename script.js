@@ -2,10 +2,11 @@
    Tabs & routing semplice
    =========================== */
 const tabs = [
-  { btn: 'btn-ruota', panel: 'tab-ruota' },
-  { btn: 'btn-tesi',  panel: 'tab-tesi'  },
-  { btn: 'btn-foto',  panel: 'tab-foto'  },
-  { btn: 'btn-extra', panel: 'tab-extra' },
+  { btn: 'btn-ruota',   panel: 'tab-ruota'   },
+  { btn: 'btn-tesi',    panel: 'tab-tesi'    },
+  { btn: 'btn-foto',    panel: 'tab-foto'    },
+  { btn: 'btn-chatgpt', panel: 'tab-chatgpt' },
+  { btn: 'btn-extra',   panel: 'tab-extra'   },
 ];
 
 function activateTab(idBtn){
@@ -13,21 +14,21 @@ function activateTab(idBtn){
     const b = document.getElementById(btn);
     const p = document.getElementById(panel);
     const active = btn === idBtn;
-    b.classList.toggle('active', active);
-    b.setAttribute('aria-selected', active ? 'true' : 'false');
-    p.classList.toggle('active', active);
+    if(b){ b.classList.toggle('active', active); b.setAttribute('aria-selected', active ? 'true' : 'false'); }
+    if(p){ p.classList.toggle('active', active); }
   });
   const entry = tabs.find(t=>t.btn===idBtn);
   if(entry) history.replaceState(null, '', `#${entry.panel.replace('tab-','')}`);
 }
 
 tabs.forEach(({btn})=>{
-  document.getElementById(btn).addEventListener('click', ()=>activateTab(btn));
+  const el = document.getElementById(btn);
+  if(el) el.addEventListener('click', ()=>activateTab(btn));
 });
 
 (function initFromHash(){
   const hash = location.hash.replace('#','');
-  if(['ruota','tesi','foto','extra'].includes(hash)) activateTab(`btn-${hash}`);
+  if(['ruota','tesi','foto','chatgpt','extra'].includes(hash)) activateTab(`btn-${hash}`);
   else activateTab('btn-ruota');
 })();
 
@@ -55,22 +56,22 @@ const closeModal  = document.getElementById('closeModal');
 const N = SEGMENTS.length;
 const SLICE = 360 / N;
 const COLORS = ['#22d3ee','#a78bfa','#38bdf8','#f472b6','#34d399','#fbbf24','#60a5fa','#c084fc'];
-const BASE_OFFSET = -90; // puntatore in alto (correzione “stortarella”)
+const BASE_OFFSET = -90; // puntatore in alto
 
 function drawWheel(){
+  if(!wheel) return;
   const stops = SEGMENTS.map((_,i)=>{
     const c = COLORS[i % COLORS.length];
     const a0 = i*SLICE, a1 = (i+1)*SLICE;
     return `${c} ${a0}deg ${a1}deg`;
   }).join(', ');
   wheel.style.background = `conic-gradient(${stops})`;
-
   wheel.querySelectorAll('.segment-label').forEach(el=>el.remove());
   SEGMENTS.forEach((s,i)=>{
     const label = document.createElement('div');
     label.className = 'segment-label';
     label.textContent = s.label;
-    const angle = i*SLICE + SLICE/2; // centro dello spicchio
+    const angle = i*SLICE + SLICE/2;
     label.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`;
     wheel.appendChild(label);
   });
@@ -123,9 +124,9 @@ function animateSpin(from, to, duration){
     const start = performance.now();
     (function frame(now){
       const t = Math.min(1, (now - start)/duration);
-      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      const eased = 1 - Math.pow(1 - t, 3);
       const val = from + (to - from)*eased;
-      wheel.style.transform = `rotate(${val}deg)`;
+      if(wheel) wheel.style.transform = `rotate(${val}deg)`;
       if(t < 1) requestAnimationFrame(frame); else res();
     })(start);
   });
@@ -133,34 +134,36 @@ function animateSpin(from, to, duration){
 
 function showResult(idx){
   const {label, msg} = SEGMENTS[idx];
-  resultTitle.textContent = label;
-  resultText.textContent  = msg;
-  modal.classList.add('show');
-  modal.setAttribute('aria-hidden','false');
+  if(resultTitle) resultTitle.textContent = label;
+  if(resultText)  resultText.textContent  = msg;
+  if(modal){
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden','false');
+  }
   confettiBurst();
 }
-
-closeModal.addEventListener('click', ()=>{
-  modal.classList.remove('show');
-  modal.setAttribute('aria-hidden','true');
-});
-modal.addEventListener('click', (e)=>{
-  if(e.target===modal){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
-});
+if(closeModal){
+  closeModal.addEventListener('click', ()=>{
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+  });
+}
+if(modal){
+  modal.addEventListener('click', (e)=>{
+    if(e.target===modal){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
+  });
+}
 
 async function spin(){
-  if(spinning) return;
+  if(spinning || !wheel) return;
   spinning = true;
-  spinBtn.disabled = true;
+  if(spinBtn) spinBtn.disabled = true;
   wheel.style.filter = 'brightness(1.05)';
 
-  const extraTurns = 4 + Math.floor(Math.random()*3); // 4-6 giri
+  const extraTurns = 4 + Math.floor(Math.random()*3);
   const target = Math.floor(Math.random()*N);
 
-  // Allineamento preciso con puntatore in alto:
-  // centro del segmento target, ruotato di BASE_OFFSET (-90°)
   let segmentCenterDeg = BASE_OFFSET - (target*SLICE + SLICE/2);
-  // normalizza a [0, 360)
   segmentCenterDeg = (segmentCenterDeg % 360 + 360) % 360;
 
   const targetRotation = extraTurns*360 + segmentCenterDeg;
@@ -170,20 +173,21 @@ async function spin(){
   wheel.style.filter = 'none';
   showResult(target);
   spinning = false;
-  spinBtn.disabled = false;
+  if(spinBtn) spinBtn.disabled = false;
 }
-spinBtn.addEventListener('click', spin);
+if(spinBtn) spinBtn.addEventListener('click', spin);
 
 /* ===========================
    Confetti minimal
    =========================== */
 const canvas = document.getElementById('confetti');
-const ctx = canvas.getContext('2d');
+const ctx = canvas ? canvas.getContext('2d') : null;
 let W, H;
-function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+function resize(){ if(!canvas) return; W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
 addEventListener('resize', resize); resize();
 let confetti = [];
 function confettiBurst(){
+  if(!ctx) return;
   const n = 140;
   for(let i=0;i<n;i++){
     confetti.push({
@@ -196,6 +200,7 @@ function confettiBurst(){
   }
 }
 function tick(){
+  if(!ctx) return requestAnimationFrame(tick);
   ctx.clearRect(0,0,W,H);
   confetti = confetti.filter(p=>p.life>0);
   for(const p of confetti){
