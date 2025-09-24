@@ -44,4 +44,93 @@
           </div>
           <button class="btn" id="spinBtn" aria-label="Gira la ruota">Gira la ruota</button>
           <div class="console" id="console" aria-live="polite"></div>
-          <p class=
+          <p class="tiny">Tip: puoi rigirarla tutte le volte che vuoi. Bevi responsabilmente.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESI -->
+    <section id="tab-tesi" role="tabpanel" aria-labelledby="btn-tesi" class="panel">
+      <div class="card">
+        <h2 class="title"><span class="chip">TESI</span><span>AI + ML + Regole: trasparenza e performance</span></h2>
+        <p>
+          Ho progettato un sistema ibrido che unisce <strong>modelli di ranking ML</strong> e un
+          <strong>agente LLM validatore</strong>, con <em>explainability</em> tramite <strong>regole interpretabili</strong> e <strong>SHAP</strong>.
+          Obiettivo: decisioni leggibili e difendibili, senza rinunciare alla qualità predittiva.
+        </p>
+        <ul class="bullet">
+          <li><strong>Pipeline</strong>: feature engineering, modelli di ranking, validazione LLM, log tracciabili.</li>
+          <li><strong>Explainability</strong>: regole compatte e grafici SHAP per capire “perché”.</li>
+          <li><strong>Affidabilità</strong>: knowledge base aggiornata dinamicamente dal validatore.</li>
+        </ul>
+        <div class="cta-row">
+          <!-- Metti qui il link pubblico al PDF su GitHub/GDrive -->
+          <a class="btn ghost" href="#" target="_blank" rel="noopener">Scarica la tesi (PDF)</a>
+          <a class="btn ghost" href="#" target="_blank" rel="noopener">Slide di presentazione</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOTO -->
+    <section id="tab-foto" role="tabpanel" aria-labelledby="btn-foto" class="panel">
+      <div class="card">
+        <h2 class="title"><span class="chip">FOTO</span><span>Un paio di ricordi</span></h2>
+        <div class="gallery">
+          <!-- Sostituisci gli src con i tuoi file in /photos -->
+          <figure class="ph">
+            <img src="photos/foto1.jpg" alt="Ricordo 1">
+            <figcaption>Ricordo n.1</figcaption>
+          </figure>
+          <figure class="ph">
+            <img src="photos/foto2.jpg" alt="Ricordo 2">
+            <figcaption>Ricordo n.2</figcaption>
+          </figure>
+          <figure class="ph">
+            <img src="photos/foto3.jpg" alt="Ricordo 3">
+            <figcaption>Ricordo n.3</figcaption>
+          </figure>
+        </div>
+        <p class="tiny muted">Suggerimento: tieni le immagini sotto i 300–400 KB per un caricamento rapido via QR.</p>
+      </div>
+    </section>
+
+    <!-- EXTRA -->
+    <section id="tab-extra" role="tabpanel" aria-labelledby="btn-extra" class="panel">
+      <div class="card">
+        <h2 class="title"><span class="chip">DATASHEET</span><span>“Ingegnere Bellissimo Spirit”</span></h2>
+        <dl class="datasheet">
+          <dt>Versione firmware</dt><dd>v1.0 — Graduation Build</dd>
+          <dt>Titolo</dt><dd>Laurea Magistrale in Ingegneria Informatica</dd>
+          <dt>Gradazione (V<sub>alc</sub>)</dt><dd>~ 40% vol</dd>
+          <dt>Input</dt><dd>Ghiaccio + Amici</dd>
+          <dt>Output</dt><dd>Allegria + Abbracci</dd>
+          <dt>Avvertenze</dt><dd><span class="tag">Don’t test in production 🍸</span></dd>
+        </dl>
+
+        <hr class="sep" />
+        <h3>Console di avvio</h3>
+        <div class="console" id="console2" aria-live="polite"></div>
+
+        <!-- Easter egg nel sorgente -->
+        <!--
+          println("Grazie per aver festeggiato con me! — Ingegnere Bellissimo")
+        -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal risultato ruota -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <div class="modal-card">
+      <h2 id="resultTitle">Brindisi!</h2>
+      <p id="resultText" class="result-text"></p>
+      <button class="btn close" id="closeModal">Chiudi</button>
+    </div>
+  </div>
+
+  <!-- Audio opzionale (sostituisci src con un tuo file breve) -->
+  <!-- <audio id="ding" preload="auto" src="media/ding.mp3"></audio> -->
+
+  <script src="script.js"></script>
+</body>
+</html>
