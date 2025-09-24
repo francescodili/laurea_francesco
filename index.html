@@ -19,6 +19,7 @@
       <button class="tab active" role="tab" aria-selected="true" aria-controls="tab-ruota" id="btn-ruota">Ruota della fortuna</button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="tab-tesi" id="btn-tesi">Tesi</button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="tab-foto" id="btn-foto">Foto</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-chatgpt" id="btn-chatgpt">ChatGPT</button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="tab-extra" id="btn-extra">Extra</button>
     </nav>
   </header>
@@ -45,33 +46,33 @@
       </div>
     </section>
 
-<!-- TESI -->
-<section id="tab-tesi" role="tabpanel" aria-labelledby="btn-tesi" class="panel">
-  <div class="card">
-    <h2 class="title">
-      <span class="chip">TESI</span>
-      <span>Come l’AI decide chi è un buon creditore (senza diventare un robot cattivo)</span>
-    </h2>
-    <p>
-      Ho sviluppato un sistema che unisce <strong>intelligenza artificiale</strong> e
-      <strong>modelli matematici</strong> per aiutare banche e istituzioni a capire
-      se un cliente è un buon candidato per un prestito o un mutuo.  
-      Non solo numeri: qui l’AI non si limita a dire <em>“sì”</em> o <em>“no”</em>,
-      ma spiega anche il <em>perché</em>, così chi legge non deve fidarsi alla cieca.
-    </p>
-    <ul class="bullet">
-      <li><strong>Pipeline</strong>: dal “puzzle” dei dati grezzi a un verdetto chiaro e tracciabile.</li>
-      <li><strong>Trasparenza</strong>: regole leggibili e grafici colorati che mostrano i motivi delle decisioni.</li>
-      <li><strong>Affidabilità</strong>: il sistema impara e aggiorna le proprie regole quando qualcosa non torna.</li>
-    </ul>
-    <div class="cta-row">
-      <a class="btn ghost" href="Tesi Finale Di Liberti Francesco.pdf" download target="_blank" rel="noopener">
-        📄 Scarica la tesi completa (PDF)
-      </a>
-    </div>
-  </div>
-</section>
-
+    <!-- TESI -->
+    <section id="tab-tesi" role="tabpanel" aria-labelledby="btn-tesi" class="panel">
+      <div class="card">
+        <h2 class="title">
+          <span class="chip">TESI</span>
+          <span>Come l’AI decide chi è un buon creditore (senza diventare un robot cattivo)</span>
+        </h2>
+        <p>
+          Ho sviluppato un sistema che unisce <strong>intelligenza artificiale</strong> e
+          <strong>modelli matematici</strong> per aiutare banche e istituzioni a capire
+          se un cliente è un buon candidato per un prestito o un mutuo.
+          Non solo numeri: qui l’AI non si limita a dire <em>“sì”</em> o <em>“no”</em>,
+          ma spiega anche il <em>perché</em>.
+        </p>
+        <ul class="bullet">
+          <li><strong>Pipeline</strong>: dal “puzzle” dei dati grezzi a un verdetto chiaro e tracciabile.</li>
+          <li><strong>Trasparenza</strong>: regole leggibili e grafici che mostrano i motivi delle decisioni.</li>
+          <li><strong>Affidabilità</strong>: il sistema impara e aggiorna le proprie regole quando qualcosa non torna.</li>
+        </ul>
+        <div class="cta-row">
+          <!-- Mantengo il nome file che hai messo nella repo -->
+          <a class="btn ghost" href="Tesi Finale Di Liberti Francesco.pdf" download target="_blank" rel="noopener">
+            📄 Scarica la tesi completa (PDF)
+          </a>
+        </div>
+      </div>
+    </section>
 
     <!-- FOTO -->
     <section id="tab-foto" role="tabpanel" aria-labelledby="btn-foto" class="panel">
@@ -79,7 +80,7 @@
         <h2 class="title"><span class="chip">FOTO</span><span>Un paio di ricordi</span></h2>
 
         <div class="cta-row">
-          <!-- Sostituisci il link sotto con la tua cartella condivisa -->
+          <!-- Sostituisci con la tua cartella condivisa -->
           <a class="btn" id="uploadLink" href="https://LINK_CARTELLA_CONDIVISA" target="_blank" rel="noopener">
             Carica una foto
           </a>
@@ -87,21 +88,46 @@
         </div>
 
         <div class="gallery">
-          <!-- Sostituisci gli src con i tuoi file in /photos -->
-          <figure class="ph">
-            <img src="photos/foto1.jpg" alt="Ricordo 1">
-            <figcaption>Ricordo n.1</figcaption>
-          </figure>
-          <figure class="ph">
-            <img src="photos/foto2.jpg" alt="Ricordo 2">
-            <figcaption>Ricordo n.2</figcaption>
-          </figure>
-          <figure class="ph">
-            <img src="photos/foto3.jpg" alt="Ricordo 3">
-            <figcaption>Ricordo n.3</figcaption>
-          </figure>
+          <figure class="ph"><img src="photos/foto1.jpg" alt="Ricordo 1"><figcaption>Ricordo n.1</figcaption></figure>
+          <figure class="ph"><img src="photos/foto2.jpg" alt="Ricordo 2"><figcaption>Ricordo n.2</figcaption></figure>
+          <figure class="ph"><img src="photos/foto3.jpg" alt="Ricordo 3"><figcaption>Ricordo n.3</figcaption></figure>
         </div>
         <p class="tiny muted">Suggerimento: tieni le immagini sotto i 300–400 KB per un caricamento rapido via QR.</p>
+      </div>
+    </section>
+
+    <!-- CHATGPT -->
+    <section id="tab-chatgpt" role="tabpanel" aria-labelledby="btn-chatgpt" class="panel">
+      <div class="card">
+        <h2 class="title"><span class="chip">CHATGPT</span><span>Il mio collaboratore invisibile</span></h2>
+        <p>
+          Dal primo anno alla tesi: ChatGPT è stato <strong>sparring partner</strong> per idee,
+          <strong>debugger</strong> quando il codice non voleva saperne, e <strong>editor</strong> per rifinire slide e testi.
+          Qui sotto una mini-timeline e qualche area in cui mi ha dato una mano concreta.
+        </p>
+
+        <div class="timeline">
+          <div class="t-item"><span class="t-badge">Anno 1</span> Ripasso veloce di algoritmi e strutture dati, esercizi spiegati passo-passo.</div>
+          <div class="t-item"><span class="t-badge">Anno 2</span> Progetti Python/ML: chiarimento librerie, best practice, test.</div>
+          <div class="t-item"><span class="t-badge">Magistrale</span> Design architettura ranking ML + validatore LLM, spiegabilità (regole/SHAP), supporto alla scrittura tesi.</div>
+          <div class="t-item"><span class="t-badge">Presentazione</span> Slide, storytelling tecnico, prove orali, ottimizzazione tempi.</div>
+        </div>
+
+        <ul class="bullet">
+          <li><strong>Codice</strong>: esempi pronti, spiegazioni riga-per-riga, refactor e naming pulito.</li>
+          <li><strong>Ricerca</strong>: confronto tra approcci, generazione di checklist e piani di esperimenti.</li>
+          <li><strong>Comunicazione</strong>: email professionali, abstract, note di rilascio, README.</li>
+        </ul>
+
+        <h3 class="mt">Galleria “Io + ChatGPT”</h3>
+        <p class="tiny muted">Spazio per le foto ricordo con il tuo assistente digitale 😉</p>
+        <div class="gallery">
+          <figure class="ph"><img src="photos/chatgpt1.jpg" alt="Studio con ChatGPT"><figcaption>Studio con ChatGPT</figcaption></figure>
+          <figure class="ph"><img src="photos/chatgpt2.jpg" alt="Debug notturno"><figcaption>Debug notturno</figcaption></figure>
+          <figure class="ph"><img src="photos/chatgpt3.jpg" alt="Ultime revisioni tesi"><figcaption>Ultime revisioni tesi</figcaption></figure>
+        </div>
+
+        <blockquote class="quote">“Ogni commit racconta una storia. Alcuni li ho scritti di notte, altri con ChatGPT come copilota.”</blockquote>
       </div>
     </section>
 
@@ -119,6 +145,20 @@
         </dl>
 
         <hr class="sep" />
+
+        <h3>Collaboratore principale</h3>
+        <div class="table-wrap">
+          <table class="table">
+            <tbody>
+              <tr><th>Nome</th><td>ChatGPT (OpenAI)</td></tr>
+              <tr><th>Ruolo</th><td>Assistente tecnico-editoriale e partner di studio</td></tr>
+              <tr><th>Ambiti di supporto</th><td>Algoritmi, ML/LLM, refactor, explainability, scrittura tesi e slide</td></tr>
+              <tr><th>Periodo</th><td>2023–2025 (e oltre)</td></tr>
+              <tr><th>Note</th><td>Ha contribuito a migliorare chiarezza, qualità del codice e tempi di sviluppo</td></tr>
+            </tbody>
+          </table>
+        </div>
+
         <h3>Console di avvio</h3>
         <div class="console" id="console2" aria-live="polite"></div>
         <!-- Easter egg nel sorgente -->
