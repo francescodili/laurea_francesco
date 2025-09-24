@@ -3,15 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Spin & Toast — Laurea Ingegneria Informatica</title>
+  <title>Francesco Di Liberti - Laurea Magistrale Ingegneria Informatica</title>
   <meta name="description" content="Ruota della fortuna + ricordi di laurea.">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Canvas per coriandoli -->
   <canvas id="confetti" aria-hidden="true"></canvas>
 
-  <!-- Nav/Tabs -->
   <header class="topbar">
     <div class="brand">
       <span class="chip">LAUREA</span>
@@ -33,9 +31,7 @@
           <span class="chip">SPIN & TOAST</span>
           <span>Ruota della fortuna</span>
         </h1>
-        <p class="muted">
-          Tocca “Gira la ruota”: ad ogni spin esce un messaggio nerd per brindare. 🎓🍸
-        </p>
+        <p class="muted">Tocca “Gira la ruota”: ad ogni spin esce un messaggio nerd per brindare. 🎓🍸</p>
 
         <div class="wheel-area">
           <div class="wheel-shell">
@@ -56,7 +52,6 @@
         <p>
           Ho progettato un sistema ibrido che unisce <strong>modelli di ranking ML</strong> e un
           <strong>agente LLM validatore</strong>, con <em>explainability</em> tramite <strong>regole interpretabili</strong> e <strong>SHAP</strong>.
-          Obiettivo: decisioni leggibili e difendibili, senza rinunciare alla qualità predittiva.
         </p>
         <ul class="bullet">
           <li><strong>Pipeline</strong>: feature engineering, modelli di ranking, validazione LLM, log tracciabili.</li>
@@ -64,8 +59,10 @@
           <li><strong>Affidabilità</strong>: knowledge base aggiornata dinamicamente dal validatore.</li>
         </ul>
         <div class="cta-row">
-          <!-- Metti qui il link pubblico al PDF su GitHub/GDrive -->
-          <a class="btn ghost" href="#" target="_blank" rel="noopener">Scarica la tesi (PDF)</a>
+          <!-- PDF nella root della repo -->
+          <a class="btn ghost" href="Tesi%20Di%20Liberti.pdf" download target="_blank" rel="noopener">
+            Scarica la tesi (PDF)
+          </a>
           <a class="btn ghost" href="#" target="_blank" rel="noopener">Slide di presentazione</a>
         </div>
       </div>
@@ -75,6 +72,15 @@
     <section id="tab-foto" role="tabpanel" aria-labelledby="btn-foto" class="panel">
       <div class="card">
         <h2 class="title"><span class="chip">FOTO</span><span>Un paio di ricordi</span></h2>
+
+        <div class="cta-row">
+          <!-- Sostituisci il link sotto con la tua cartella condivisa -->
+          <a class="btn" id="uploadLink" href="https://LINK_CARTELLA_CONDIVISA" target="_blank" rel="noopener">
+            Carica una foto
+          </a>
+          <a class="btn ghost" href="#tab-foto">Apri album</a>
+        </div>
+
         <div class="gallery">
           <!-- Sostituisci gli src con i tuoi file in /photos -->
           <figure class="ph">
@@ -110,16 +116,12 @@
         <hr class="sep" />
         <h3>Console di avvio</h3>
         <div class="console" id="console2" aria-live="polite"></div>
-
         <!-- Easter egg nel sorgente -->
-        <!--
-          println("Grazie per aver festeggiato con me! — Ingegnere Bellissimo")
-        -->
+        <!-- println("Grazie per aver festeggiato con me! — Ingegnere Bellissimo") -->
       </div>
     </section>
   </main>
 
-  <!-- Modal risultato ruota -->
   <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
     <div class="modal-card">
       <h2 id="resultTitle">Brindisi!</h2>
@@ -127,9 +129,6 @@
       <button class="btn close" id="closeModal">Chiudi</button>
     </div>
   </div>
-
-  <!-- Audio opzionale (sostituisci src con un tuo file breve) -->
-  <!-- <audio id="ding" preload="auto" src="media/ding.mp3"></audio> -->
 
   <script src="script.js"></script>
 </body>
