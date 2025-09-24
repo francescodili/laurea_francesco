@@ -17,7 +17,6 @@ function activateTab(idBtn){
     b.setAttribute('aria-selected', active ? 'true' : 'false');
     p.classList.toggle('active', active);
   });
-  // Hash per deep link
   const entry = tabs.find(t=>t.btn===idBtn);
   if(entry) history.replaceState(null, '', `#${entry.panel.replace('tab-','')}`);
 }
@@ -26,14 +25,10 @@ tabs.forEach(({btn})=>{
   document.getElementById(btn).addEventListener('click', ()=>activateTab(btn));
 });
 
-// Deep link su #ruota/#tesi/#foto/#extra
 (function initFromHash(){
   const hash = location.hash.replace('#','');
-  if(['ruota','tesi','foto','extra'].includes(hash)){
-    activateTab(`btn-${hash}`);
-  } else {
-    activateTab('btn-ruota');
-  }
+  if(['ruota','tesi','foto','extra'].includes(hash)) activateTab(`btn-${hash}`);
+  else activateTab('btn-ruota');
 })();
 
 /* ===========================
@@ -56,16 +51,16 @@ const modal = document.getElementById('modal');
 const resultTitle = document.getElementById('resultTitle');
 const resultText  = document.getElementById('resultText');
 const closeModal  = document.getElementById('closeModal');
-// const ding = document.getElementById('ding'); // Se abiliti l’audio
 
 const N = SEGMENTS.length;
-const slice = 360 / N;
-const colors = ['#22d3ee','#a78bfa','#38bdf8','#f472b6','#34d399','#fbbf24','#60a5fa','#c084fc'];
+const SLICE = 360 / N;
+const COLORS = ['#22d3ee','#a78bfa','#38bdf8','#f472b6','#34d399','#fbbf24','#60a5fa','#c084fc'];
+const BASE_OFFSET = -90; // puntatore in alto (correzione “stortarella”)
 
 function drawWheel(){
   const stops = SEGMENTS.map((_,i)=>{
-    const c = colors[i % colors.length];
-    const a0 = i*slice, a1 = (i+1)*slice;
+    const c = COLORS[i % COLORS.length];
+    const a0 = i*SLICE, a1 = (i+1)*SLICE;
     return `${c} ${a0}deg ${a1}deg`;
   }).join(', ');
   wheel.style.background = `conic-gradient(${stops})`;
@@ -75,7 +70,7 @@ function drawWheel(){
     const label = document.createElement('div');
     label.className = 'segment-label';
     label.textContent = s.label;
-    const angle = i*slice + slice/2;
+    const angle = i*SLICE + SLICE/2; // centro dello spicchio
     label.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`;
     wheel.appendChild(label);
   });
@@ -104,6 +99,7 @@ function type(text, el){
   });
 }
 async function typeLines(lines, el){
+  if(!el) return;
   el.textContent = '';
   for(const line of lines){
     await type(line, el);
@@ -142,13 +138,15 @@ function showResult(idx){
   modal.classList.add('show');
   modal.setAttribute('aria-hidden','false');
   confettiBurst();
-  // try{ ding.currentTime=0; ding.play().catch(()=>{});}catch(e){}
 }
+
 closeModal.addEventListener('click', ()=>{
   modal.classList.remove('show');
   modal.setAttribute('aria-hidden','true');
 });
-modal.addEventListener('click', (e)=>{ if(e.target===modal){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); } });
+modal.addEventListener('click', (e)=>{
+  if(e.target===modal){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
+});
 
 async function spin(){
   if(spinning) return;
@@ -157,14 +155,20 @@ async function spin(){
   wheel.style.filter = 'brightness(1.05)';
 
   const extraTurns = 4 + Math.floor(Math.random()*3); // 4-6 giri
-  const targetSegment = Math.floor(Math.random()*N);
-  const segmentCenterDeg = (360 - (targetSegment*slice + slice/2)) % 360;
+  const target = Math.floor(Math.random()*N);
+
+  // Allineamento preciso con puntatore in alto:
+  // centro del segmento target, ruotato di BASE_OFFSET (-90°)
+  let segmentCenterDeg = BASE_OFFSET - (target*SLICE + SLICE/2);
+  // normalizza a [0, 360)
+  segmentCenterDeg = (segmentCenterDeg % 360 + 360) % 360;
+
   const targetRotation = extraTurns*360 + segmentCenterDeg;
 
-  await animateSpin(currentRotation, currentRotation + targetRotation, 2200 + Math.random()*1200);
+  await animateSpin(currentRotation, currentRotation + targetRotation, 2300 + Math.random()*1200);
   currentRotation = (currentRotation + targetRotation) % 360;
   wheel.style.filter = 'none';
-  showResult(targetSegment);
+  showResult(target);
   spinning = false;
   spinBtn.disabled = false;
 }
@@ -187,7 +191,7 @@ function confettiBurst(){
       vx: (Math.random()-0.5)*6, vy: (Math.random()*-6)-2,
       g: 0.15 + Math.random()*0.2,
       life: 120 + Math.random()*60,
-      color: colors[Math.floor(Math.random()*colors.length)]
+      color: COLORS[Math.floor(Math.random()*COLORS.length)]
     });
   }
 }
@@ -204,10 +208,3 @@ function tick(){
   requestAnimationFrame(tick);
 }
 tick();
-
-/* ===========================
-   Qualche utility
-   =========================== */
-// Se vuoi cambiare i messaggi della ruota, modifica l’array SEGMENTS in alto.
-// Se vuoi far partire la ruota con uno swipe: 
-// wheel.addEventListener('touchend', (e)=> spin());
