@@ -1,5 +1,5 @@
 <div class="card">
-    <h2 class="title"><span class="chip">TESI</span><span>AI + trasparenza: performance con spiegazioni</span></h2>
+    <h2 class="title"><span class="chip">TESI</span><span>AI-DRIVEN LOAN AND MORTGAGE EVALUATION</span></h2>
     <p>
       Sistema ibrido con <strong>modelli di ranking</strong> e <strong>validatore LLM</strong>,
       spiegabilità tramite <strong>regole interpretabili</strong> e indicatori tipo SHAP.
@@ -9,8 +9,25 @@
       <li><strong>Explainability</strong>: regole compatte e motivazioni leggibili.</li>
       <li><strong>Affidabilità</strong>: aggiornamento dinamico della knowledge base.</li>
     </ul>
-    <div class="cta-row">
-      <a class="btn ghost" id="downloadTesi" href="#" download target="_blank" rel="noopener">📄 Scarica la tesi (PDF)</a>
+
+<!-- Viewer PDF (locale) -->
+<div class="pdf-viewer">
+  <div class="pdf-toolbar">
+    <div class="left">
+      <span class="tiny muted">Anteprima tesi</span>
     </div>
+    <div class="right">
+      <a class="btn ghost" id="downloadTesi" href="#" download target="_blank" rel="noopener">
+        📄 Scarica la tesi (PDF)
+      </a>
+    </div>
+  </div>
+
+  <div class="pdf-iframe-wrap">
+    <iframe id="pdfIframe" class="pdf-iframe" title="Anteprima Tesi" loading="lazy"></iframe>
+  </div>
+  <p class="tiny muted" id="pdfStatus" style="margin-top:6px;"></p>
+</div>
+
   </div>
   

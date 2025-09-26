@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Viewer PDF</title>
+  <style>
+    :root{ --stroke:#1f2937; --bg:#0a0f1b; --txt:#e5e7eb; }
+    body{margin:0; font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Ubuntu,Arial; background:#0b1220; color:var(--txt)}
+    .bar{
+      position:sticky; top:0; z-index:5; display:flex; gap:8px; align-items:center;
+      padding:8px; background:#0a0f1b; border-bottom:1px solid var(--stroke)
+    }
+    .btn{border:1px solid var(--stroke); background:#101828; color:#fff; border-radius:10px; padding:8px 10px; font-weight:700; cursor:pointer}
+    .btn:disabled{opacity:.5; cursor:not-allowed}
+    .input{
+      width:70px; border:1px solid var(--stroke); background:#0b1220; color:#fff; border-radius:10px;
+      padding:8px 10px; font-weight:700; text-align:center;
+    }
+    .sp{flex:1}
+    .wrap{height:calc(100vh - 50px); overflow:auto; background:#0a0f1b}
+    .pages{width:min(100%, 980px); margin:0 auto; padding:12px 0}
+    canvas.page{
+      display:block; margin:12px auto; background:#fff; box-shadow:0 6px 22px rgba(0,0,0,.35);
+      /* niente width/height in CSS: li settiamo in JS per evitare blur */
+    }
+    .num{font-size:12px; opacity:.8}
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <button id="prev" class="btn">←</button>
+    <button id="next" class="btn">→</button>
+    <span class="num">Pag. <input id="pageInput" class="input" type="number" min="1" value="1" />/<span id="count">?</span></span>
+
+    <span class="sp"></span>
+
+    <button id="fit" class="btn">Adatta</button>
+    <button id="zin" class="btn">+</button>
+    <button id="zout" class="btn">−</button>
+  </div>
+
+  <div class="wrap">
+    <div id="pages" class="pages"></div>
+  </div>
+
+  <!-- PDF.js UMD v3 -->
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+
+    const qs = new URLSearchParams(location.search);
+    const fileUrl = qs.get('file');
+
+    const pagesEl   = document.getElementById('pages');
+    const pageInput = document.getElementById('pageInput');
+    const countEl   = document.getElementById('count');
+
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const fitBtn  = document.getElementById('fit');
+    const zinBtn  = document.getElementById('zin');
+    const zoutBtn = document.getElementById('zout');
+
+    let pdf, scale = 1.0, canvases = [];
+    let firstViewport = null;
+
+    function availableWidth(){
+      // larghezza effettiva contenitore (meno un po’ di respiro)
+      return Math.max(200, pagesEl.clientWidth - 24);
+    }
+
+    function computeFitScale(){
+      if(!firstViewport) return 1;
+      return Math.max(0.4, Math.min(4, availableWidth() / firstViewport.width));
+    }
+
+    function ensureCanvas(n){
+      if(!canvases[n-1]){
+        const c = document.createElement('canvas');
+        c.className = 'page';
+        c.id = 'p-' + n;
+        canvases[n-1] = c;
+        pagesEl.appendChild(c);
+      }
+      return canvases[n-1];
+    }
+
+    async function renderPage(n){
+      const page = await pdf.getPage(n);
+      const vp = page.getViewport({ scale });
+      const canvas = ensureCanvas(n);
+      const ctx = canvas.getContext('2d', { alpha:false });
+
+      // dimensioni fisiche = viewport → no blur
+      canvas.width  = Math.floor(vp.width);
+      canvas.height = Math.floor(vp.height);
+      canvas.style.width  = canvas.width  + 'px';
+      canvas.style.height = canvas.height + 'px';
+
+      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+    }
+
+    async function renderAll(){
+      pagesEl.innerHTML = '';
+      canvases = [];
+      for(let n=1; n<=pdf.numPages; n++){
+        await renderPage(n); // sequenziale: stabile e non “freeza”
+      }
+      pageInput.max = pdf.numPages;
+      countEl.textContent = pdf.numPages;
+      prevBtn.disabled = true;
+      nextBtn.disabled = (pdf.numPages<=1);
+    }
+
+    // Scorri alla pagina richiesta
+    function scrollToPage(n){
+      const c = document.getElementById('p-'+n);
+      if(c) c.scrollIntoView({behavior:'smooth', block:'start'});
+      prevBtn.disabled = (n<=1);
+      nextBtn.disabled = (n>=pdf.numPages);
+      pageInput.value = String(n);
+    }
+
+    // Controlli
+    prevBtn.onclick = ()=>{
+      const n = Math.max(1, parseInt(pageInput.value||'1',10) - 1);
+      scrollToPage(n);
+    };
+    nextBtn.onclick = ()=>{
+      const n = Math.min(pdf.numPages, parseInt(pageInput.value||'1',10) + 1);
+      scrollToPage(n);
+    };
+    pageInput.addEventListener('change', ()=>{
+      let n = parseInt(pageInput.value||'1',10);
+      if(isNaN(n)) n = 1;
+      n = Math.min(Math.max(1,n), pdf.numPages);
+      scrollToPage(n);
+    });
+
+    fitBtn.onclick  = async ()=>{ scale = computeFitScale(); await renderAll(); scrollToPage(parseInt(pageInput.value||'1',10)); };
+    zinBtn.onclick  = async ()=>{ scale = Math.min(4,   +(scale + 0.15).toFixed(2)); await renderAll(); scrollToPage(parseInt(pageInput.value||'1',10)); };
+    zoutBtn.onclick = async ()=>{ scale = Math.max(0.4, +(scale - 0.15).toFixed(2)); await renderAll(); scrollToPage(parseInt(pageInput.value||'1',10)); };
+
+    window.addEventListener('resize', ()=>{
+      // se è attiva la modalità “Adatta”, riadattiamo alla nuova larghezza
+      const wasFit = Math.abs(scale - computeFitScale()) < 0.001;
+      if(wasFit){ scale = computeFitScale(); renderAll(); }
+    });
+
+    (async ()=>{
+      // verifica minima: header %PDF-
+      const res = await fetch(fileUrl, {cache:'no-store'});
+      const buf = await res.arrayBuffer();
+      const u8  = new Uint8Array(buf);
+      const isPdf = u8[0]===0x25 && u8[1]===0x50 && u8[2]===0x44 && u8[3]===0x46 && u8[4]===0x2D;
+      if(!isPdf) throw new Error('File non PDF');
+
+      const blobUrl = URL.createObjectURL(new Blob([buf], {type:'application/pdf'}));
+      pdf = await pdfjsLib.getDocument(blobUrl).promise;
+
+      const first = await pdf.getPage(1);
+      firstViewport = first.getViewport({ scale: 1 });
+      scale = computeFitScale();          // mostra subito l’intera pagina a4
+      await renderAll();
+      scrollToPage(1);
+    })().catch(err=>{
+      document.body.innerHTML = '<div style="padding:16px;font:14px ui-sans-serif,system-ui">Anteprima non disponibile. Assicurati che il PDF sia caricato correttamente nel repository.</div>';
+      console.error(err);
+    });
+  </script>
+</body>
+</html>

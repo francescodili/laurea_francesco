@@ -43,12 +43,49 @@ export async function loadRoute(id){
 
 /* ======= after-load per singole pagine ======= */
 function initHome(){
-  /* Non serve JS, è una hero statica. */
+  const homeCon = document.getElementById('console');
+  if (homeCon) typeLines(['> build project --status success','> deploy graduate.exe','> cheers.exe'], homeCon);
 }
+
 function initRuota(){
   initWheel();
-  const con = document.getElementById('console');
-  typeLines(['> build project --status success','> deploy graduate.exe','> cheers.exe'], con);
 }
-function initTesi(){ /* opzionale */ }
+
+function initTesi(){
+  // URL assoluto della tesi (gestisce sottocartelle)
+  const absUrl = new URL(CONFIG.PDF_NAME, location.href).href;
+
+  // download SOLO da pulsante
+  const link = document.getElementById('downloadTesi');
+  if (link) link.href = absUrl;
+
+  // iframe verso viewer locale
+  const iframe = document.getElementById('pdfIframe');
+  const status = document.getElementById('pdfStatus');
+  if (!iframe) return;
+
+  // Passiamo il PDF come query ?file=...
+  const viewerUrl = new URL('pages/pdf-viewer.html', location.href);
+  viewerUrl.searchParams.set('file', absUrl);
+
+  // Test veloce che “sembri” un PDF prima di caricare il viewer (opzionale)
+  (async ()=>{
+    try{
+      const res = await fetch(absUrl, {cache:'no-store'});
+      const buf = await res.arrayBuffer();
+      const u8  = new Uint8Array(buf);
+      const isPdf = u8[0]===0x25 && u8[1]===0x50 && u8[2]===0x44 && u8[3]===0x46 && u8[4]===0x2D; // %PDF-
+      if(!isPdf) throw new Error('Non è un PDF valido (header mancante)');
+
+      // Se sembra PDF, montiamo il viewer
+      iframe.src = viewerUrl.href;
+      if (status) status.textContent = '';
+    }catch(err){
+      if (status) status.textContent = 'Anteprima non disponibile. Scarica la tesi con il pulsante qui sopra.';
+      console.error(err);
+    }
+  })();
+}
+
+
 function initFoto(){ /* opzionale */ }
