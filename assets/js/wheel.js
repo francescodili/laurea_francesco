@@ -1,24 +1,23 @@
-import { SEGMENTS } from "./data.js";
+import { SEGMENTS, QUIZ, generateCoupon, CONFIG } from "./data.js";
 import { burst } from "./confetti.js";
 
 const SLICE = 360 / SEGMENTS.length;
 const COLORS = ['#22d3ee','#a78bfa','#38bdf8','#f472b6','#34d399','#fbbf24','#60a5fa','#c084fc'];
-const BASE_OFFSET = -90;  // puntatore in alto
+const BASE_OFFSET = -90;
 
-let wheel, spinBtn, modal, resultTitle, resultText, closeModal;
+let wheel, spinBtn, modal, modalTitle, modalBody, modalActions, closeModal;
 let spinning = false, currentRotation = 0;
 
 export function initWheel(){
-  // Query elementi presenti nella pagina ruota
-  wheel       = document.getElementById('wheel');
-  spinBtn     = document.getElementById('spinBtn');
-  modal       = document.getElementById('modal');
-  resultTitle = document.getElementById('resultTitle');
-  resultText  = document.getElementById('resultText');
-  closeModal  = document.getElementById('closeModal');
+  wheel        = document.getElementById('wheel');
+  spinBtn      = document.getElementById('spinBtn');
+  modal        = document.getElementById('modal');
+  modalTitle   = document.getElementById('modalTitle');
+  modalBody    = document.getElementById('modalBody');
+  modalActions = document.getElementById('modalActions');
+  closeModal   = document.getElementById('closeModal');
 
   if(!wheel || !spinBtn) return;
-
   drawWheel();
   spinBtn.addEventListener('click', spin);
   if(closeModal) closeModal.addEventListener('click', hideModal);
@@ -64,7 +63,6 @@ async function spin(){
 
   const extraTurns = 4 + Math.floor(Math.random()*3);
   const target = Math.floor(Math.random()*SEGMENTS.length);
-
   let center = BASE_OFFSET - (target*SLICE + SLICE/2);
   center = (center % 360 + 360) % 360;
 
@@ -72,20 +70,56 @@ async function spin(){
   await animate(currentRotation, currentRotation + targetRotation, 2300 + Math.random()*1200);
   currentRotation = (currentRotation + targetRotation) % 360;
   wheel.style.filter = 'none';
-  showResult(target);
+
+  showQuiz(target);
   spinning = false; spinBtn.disabled = false;
 }
 
-function showResult(idx){
-  const {label, msg} = SEGMENTS[idx];
-  if(resultTitle) resultTitle.textContent = label;
-  if(resultText)  resultText.textContent  = msg;
-  if(modal){
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden','false');
-  }
-  burst();
+function showQuiz(idx){
+  const seg = SEGMENTS[idx];
+  const q = QUIZ[Math.floor(Math.random()*QUIZ.length)];
+
+  modalTitle.textContent = seg.label;
+  modalBody.innerHTML = `
+    <p class="result-text">${seg.msg}</p>
+    <div class="card" style="margin-top:8px">
+      <h3 style="margin:0 0 6px">Quesito</h3>
+      <p class="tiny muted">${q.q}</p>
+      <input id="quizInput" class="btn ghost" style="width:100%; background:#0a0f1b; color:#e5e7eb; padding:10px; border-radius:10px; border:1px solid var(--stroke)" placeholder="Scrivi la risposta..." />
+      <p id="quizFeedback" class="tiny" style="color:var(--warn); display:none; margin-top:6px">Risposta errata, riprova 🤏</p>
+    </div>
+  `;
+  modalActions.innerHTML = `<button class="btn" id="submitQuiz">Invia risposta</button>`;
+  modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
+
+  document.getElementById('submitQuiz').onclick = ()=>{
+    const val = (document.getElementById('quizInput').value || '').trim().toLowerCase();
+    const ok = q.a.some(ans => val === ans.toLowerCase());
+    if(ok){ showCoupon(); } else {
+      const fb = document.getElementById('quizFeedback');
+      fb.style.display = 'block';
+    }
+  };
 }
+
+function showCoupon(){
+  const code = generateCoupon();
+  burst();
+
+  modalTitle.textContent = "🎉 Coupon vinto!";
+  modalBody.innerHTML = `
+    <div class="coupon">
+      <h3>Brindisi con l’Ingegnere Bellissimo</h3>
+      <p class="tiny muted">Mostra questo coupon per riscattare il premio.</p>
+      <div class="coupon-code" id="couponCode">${code}</div>
+      <p class="coupon-hint">Suggerimento: fai uno <strong>screenshot</strong> ora, oppure scarica il PDF.</p>
+    </div>
+  `;
+  modalActions.innerHTML = `
+    <a class="btn" href="${CONFIG.COUPON_PDF}" download target="_blank" rel="noopener">Scarica PDF</a>
+  `;
+}
+
 function hideModal(){
   modal.classList.remove('show');
   modal.setAttribute('aria-hidden','true');

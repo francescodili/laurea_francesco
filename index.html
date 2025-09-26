@@ -4,15 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Francesco Di Liberti — Laurea Magistrale Ingegneria Informatica</title>
-  <meta name="description" content="Ruota della fortuna, tesi, foto e ringraziamenti.">
+  <meta name="description" content="Home, ruota, tesi, foto, ChatGPT e ringraziamenti.">
   <link rel="stylesheet" href="assets/css/base.css" />
   <link rel="stylesheet" href="assets/css/wheel.css" />
+  <!-- ...nel blocco <head> -->
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="alternate icon" href="assets/img/favicon.svg" />
+
 </head>
 <body>
-  <!-- Confetti globale -->
   <canvas id="confetti" aria-hidden="true"></canvas>
 
-  <!-- Topbar + Tabs -->
   <header class="topbar">
     <div class="brand">
       <span class="chip">LAUREA</span>
@@ -21,16 +23,16 @@
     <nav class="tabs" id="tabs" role="tablist" aria-label="Sezioni del sito"></nav>
   </header>
 
-  <!-- Qui iniettiamo le pagine -->
   <main class="container">
     <section id="app" class="panel active" role="tabpanel" aria-live="polite"></section>
   </main>
 
-  <!-- Modal generica per la ruota -->
-  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+  <!-- Modal multi-uso: Quiz & Coupon -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-card">
-      <h2 id="resultTitle">Brindisi!</h2>
-      <p id="resultText" class="result-text"></p>
+      <h2 id="modalTitle">Domanda</h2>
+      <div id="modalBody"></div>
+      <div class="cta-row" id="modalActions"></div>
       <button class="btn close" id="closeModal">Chiudi</button>
     </div>
   </div>

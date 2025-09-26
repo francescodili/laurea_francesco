@@ -9,7 +9,6 @@ export function initConfetti(){
   addEventListener('resize', resize); resize();
   tick();
 }
-
 export function burst(){
   if(!ctx) return;
   const n = 140;
@@ -23,7 +22,6 @@ export function burst(){
     });
   }
 }
-
 function tick(){
   if(!ctx) return requestAnimationFrame(tick);
   ctx.clearRect(0,0,W,H);
