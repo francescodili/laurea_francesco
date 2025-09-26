@@ -3,170 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Francesco Di Liberti - Laurea Magistrale Ingegneria Informatica</title>
-  <meta name="description" content="Ruota della fortuna + ricordi di laurea.">
-  <link rel="stylesheet" href="style.css" />
+  <title>Francesco Di Liberti — Laurea Magistrale Ingegneria Informatica</title>
+  <meta name="description" content="Ruota della fortuna, tesi, foto e ringraziamenti.">
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/wheel.css" />
 </head>
 <body>
+  <!-- Confetti globale -->
   <canvas id="confetti" aria-hidden="true"></canvas>
 
+  <!-- Topbar + Tabs -->
   <header class="topbar">
     <div class="brand">
       <span class="chip">LAUREA</span>
       <strong>Ingegnere Informatica</strong>
     </div>
-    <nav class="tabs" role="tablist" aria-label="Sezioni del sito">
-      <button class="tab active" role="tab" aria-selected="true" aria-controls="tab-ruota" id="btn-ruota">Ruota della fortuna</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-tesi" id="btn-tesi">Tesi</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-foto" id="btn-foto">Foto</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-chatgpt" id="btn-chatgpt">ChatGPT</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-extra" id="btn-extra">Extra</button>
-    </nav>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Sezioni del sito"></nav>
   </header>
 
+  <!-- Qui iniettiamo le pagine -->
   <main class="container">
-    <!-- RUOTA -->
-    <section id="tab-ruota" role="tabpanel" aria-labelledby="btn-ruota" class="panel active">
-      <div class="card">
-        <h1 class="title">
-          <span class="chip">SPIN & TOAST</span>
-          <span>Ruota della fortuna</span>
-        </h1>
-        <p class="muted">Tocca “Gira la ruota”: ad ogni spin esce un messaggio nerd per brindare. 🎓🍸</p>
-
-        <div class="wheel-area">
-          <div class="wheel-shell">
-            <div class="pointer" aria-hidden="true"></div>
-            <div class="wheel" id="wheel" aria-label="Ruota della fortuna"></div>
-          </div>
-          <button class="btn" id="spinBtn" aria-label="Gira la ruota">Gira la ruota</button>
-          <div class="console" id="console" aria-live="polite"></div>
-          <p class="tiny">Tip: puoi rigirarla tutte le volte che vuoi. Bevi responsabilmente.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- TESI -->
-    <section id="tab-tesi" role="tabpanel" aria-labelledby="btn-tesi" class="panel">
-      <div class="card">
-        <h2 class="title">
-          <span class="chip">TESI</span>
-          <span>Come l’AI decide chi è un buon creditore (senza diventare un robot cattivo)</span>
-        </h2>
-        <p>
-          Ho sviluppato un sistema che unisce <strong>intelligenza artificiale</strong> e
-          <strong>modelli matematici</strong> per aiutare banche e istituzioni a capire
-          se un cliente è un buon candidato per un prestito o un mutuo.
-          Non solo numeri: qui l’AI non si limita a dire <em>“sì”</em> o <em>“no”</em>,
-          ma spiega anche il <em>perché</em>.
-        </p>
-        <ul class="bullet">
-          <li><strong>Pipeline</strong>: dal “puzzle” dei dati grezzi a un verdetto chiaro e tracciabile.</li>
-          <li><strong>Trasparenza</strong>: regole leggibili e grafici che mostrano i motivi delle decisioni.</li>
-          <li><strong>Affidabilità</strong>: il sistema impara e aggiorna le proprie regole quando qualcosa non torna.</li>
-        </ul>
-        <div class="cta-row">
-          <!-- Mantengo il nome file che hai messo nella repo -->
-          <a class="btn ghost" href="Tesi Finale Di Liberti Francesco.pdf" download target="_blank" rel="noopener">
-            📄 Scarica la tesi completa (PDF)
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOTO -->
-    <section id="tab-foto" role="tabpanel" aria-labelledby="btn-foto" class="panel">
-      <div class="card">
-        <h2 class="title"><span class="chip">FOTO</span><span>Un paio di ricordi</span></h2>
-
-        <div class="cta-row">
-          <!-- Sostituisci con la tua cartella condivisa -->
-          <a class="btn" id="uploadLink" href="https://LINK_CARTELLA_CONDIVISA" target="_blank" rel="noopener">
-            Carica una foto
-          </a>
-          <a class="btn ghost" href="#tab-foto">Apri album</a>
-        </div>
-
-        <div class="gallery">
-          <figure class="ph"><img src="photos/foto1.jpg" alt="Ricordo 1"><figcaption>Ricordo n.1</figcaption></figure>
-          <figure class="ph"><img src="photos/foto2.jpg" alt="Ricordo 2"><figcaption>Ricordo n.2</figcaption></figure>
-          <figure class="ph"><img src="photos/foto3.jpg" alt="Ricordo 3"><figcaption>Ricordo n.3</figcaption></figure>
-        </div>
-        <p class="tiny muted">Suggerimento: tieni le immagini sotto i 300–400 KB per un caricamento rapido via QR.</p>
-      </div>
-    </section>
-
-    <!-- CHATGPT -->
-    <section id="tab-chatgpt" role="tabpanel" aria-labelledby="btn-chatgpt" class="panel">
-      <div class="card">
-        <h2 class="title"><span class="chip">CHATGPT</span><span>Il mio collaboratore invisibile</span></h2>
-        <p>
-          Dal primo anno alla tesi: ChatGPT è stato <strong>sparring partner</strong> per idee,
-          <strong>debugger</strong> quando il codice non voleva saperne, e <strong>editor</strong> per rifinire slide e testi.
-          Qui sotto una mini-timeline e qualche area in cui mi ha dato una mano concreta.
-        </p>
-
-        <div class="timeline">
-          <div class="t-item"><span class="t-badge">Anno 1</span> Ripasso veloce di algoritmi e strutture dati, esercizi spiegati passo-passo.</div>
-          <div class="t-item"><span class="t-badge">Anno 2</span> Progetti Python/ML: chiarimento librerie, best practice, test.</div>
-          <div class="t-item"><span class="t-badge">Magistrale</span> Design architettura ranking ML + validatore LLM, spiegabilità (regole/SHAP), supporto alla scrittura tesi.</div>
-          <div class="t-item"><span class="t-badge">Presentazione</span> Slide, storytelling tecnico, prove orali, ottimizzazione tempi.</div>
-        </div>
-
-        <ul class="bullet">
-          <li><strong>Codice</strong>: esempi pronti, spiegazioni riga-per-riga, refactor e naming pulito.</li>
-          <li><strong>Ricerca</strong>: confronto tra approcci, generazione di checklist e piani di esperimenti.</li>
-          <li><strong>Comunicazione</strong>: email professionali, abstract, note di rilascio, README.</li>
-        </ul>
-
-        <h3 class="mt">Galleria “Io + ChatGPT”</h3>
-        <p class="tiny muted">Spazio per le foto ricordo con il tuo assistente digitale 😉</p>
-        <div class="gallery">
-          <figure class="ph"><img src="photos/chatgpt1.jpg" alt="Studio con ChatGPT"><figcaption>Studio con ChatGPT</figcaption></figure>
-          <figure class="ph"><img src="photos/chatgpt2.jpg" alt="Debug notturno"><figcaption>Debug notturno</figcaption></figure>
-          <figure class="ph"><img src="photos/chatgpt3.jpg" alt="Ultime revisioni tesi"><figcaption>Ultime revisioni tesi</figcaption></figure>
-        </div>
-
-        <blockquote class="quote">“Ogni commit racconta una storia. Alcuni li ho scritti di notte, altri con ChatGPT come copilota.”</blockquote>
-      </div>
-    </section>
-
-    <!-- EXTRA -->
-    <section id="tab-extra" role="tabpanel" aria-labelledby="btn-extra" class="panel">
-      <div class="card">
-        <h2 class="title"><span class="chip">DATASHEET</span><span>“Ingegnere Bellissimo Spirit”</span></h2>
-        <dl class="datasheet">
-          <dt>Versione firmware</dt><dd>v1.0 — Graduation Build</dd>
-          <dt>Titolo</dt><dd>Laurea Magistrale in Ingegneria Informatica</dd>
-          <dt>Gradazione (V<sub>alc</sub>)</dt><dd>~ 40% vol</dd>
-          <dt>Input</dt><dd>Ghiaccio + Amici</dd>
-          <dt>Output</dt><dd>Allegria + Abbracci</dd>
-          <dt>Avvertenze</dt><dd><span class="tag">Don’t test in production 🍸</span></dd>
-        </dl>
-
-        <hr class="sep" />
-
-        <h3>Collaboratore principale</h3>
-        <div class="table-wrap">
-          <table class="table">
-            <tbody>
-              <tr><th>Nome</th><td>ChatGPT (OpenAI)</td></tr>
-              <tr><th>Ruolo</th><td>Assistente tecnico-editoriale e partner di studio</td></tr>
-              <tr><th>Ambiti di supporto</th><td>Algoritmi, ML/LLM, refactor, explainability, scrittura tesi e slide</td></tr>
-              <tr><th>Periodo</th><td>2023–2025 (e oltre)</td></tr>
-              <tr><th>Note</th><td>Ha contribuito a migliorare chiarezza, qualità del codice e tempi di sviluppo</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3>Console di avvio</h3>
-        <div class="console" id="console2" aria-live="polite"></div>
-        <!-- Easter egg nel sorgente -->
-        <!-- println("Grazie per aver festeggiato con me! — Ingegnere Bellissimo") -->
-      </div>
-    </section>
+    <section id="app" class="panel active" role="tabpanel" aria-live="polite"></section>
   </main>
 
+  <!-- Modal generica per la ruota -->
   <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
     <div class="modal-card">
       <h2 id="resultTitle">Brindisi!</h2>
@@ -175,6 +35,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>
