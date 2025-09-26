@@ -2,6 +2,8 @@ import { CONFIG } from "./data.js";
 import { initWheel } from "./wheel.js";
 import { initConfetti } from "./confetti.js";
 import { typeLines } from "./typing.js";
+import { initGallery } from "./gallery.js";
+
 
 const routes = [
   { id:"home",    title:"Home",                file:"pages/home.html",    after: initHome },
@@ -88,4 +90,6 @@ function initTesi(){
 }
 
 
-function initFoto(){ /* opzionale */ }
+function initFoto(){
+  initGallery();
+}

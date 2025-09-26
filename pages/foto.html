@@ -1,12 +1,18 @@
 <div class="card">
-    <h2 class="title"><span class="chip">FOTO</span><span>Un paio di ricordi</span></h2>
-  
-    <div class="cta-row">
-      <a class="btn" id="uploadLink" href="#" target="_blank" rel="noopener">Carica una foto</a>
-      <a class="btn ghost" href="#foto">Apri album</a>
-    </div>
-  
-    <div class="gallery" id="gallery"></div>
-    <p class="tiny muted">Suggerimento: tieni le immagini sotto i 300–400 KB per un caricamento rapido via QR.</p>
+  <h2 class="title"><span class="chip">FOTO</span><span>Un paio di ricordi</span></h2>
+
+  <div class="cta-row" style="margin-bottom:10px">
+    <a class="btn" id="uploadLink" href="#" target="_blank" rel="noopener">Carica anche tu una foto!</a>
   </div>
-  
+
+  <!-- Status + griglia -->
+  <p class="tiny muted" id="galleryStatus">Sto cercando le foto…</p>
+  <div class="gallery pro" id="gallery"></div>
+
+  <!-- Lightbox minimale -->
+  <div class="modal" id="lightbox" aria-hidden="true">
+    <div class="modal-card" style="max-width:min(96vw,900px); padding:0; border:0; background:transparent">
+      <img id="lightImg" alt="" style="width:100%; border-radius:14px; display:block"/>
+    </div>
+  </div>
+</div>

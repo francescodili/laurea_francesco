@@ -1,7 +1,10 @@
 // Config centralizzata
 export const CONFIG = {
   PDF_NAME: "Tesi Di Liberti.pdf",                     // PDF tesi
-  UPLOAD_LINK: "https://LINK_CARTELLA_CONDIVISA",      // cartella per caricare foto
+    UPLOAD_LINK: "https://drive.google.com/drive/folders/1NWpm1EhBsw4P7qQxCAZiKlNBi9RuDfMN?usp=sharing",
+    PHOTOS_API: "https://script.google.com/macros/s/AKfycbxZJfiSS2ghKGbKVZPMQZs7uRul36NOddrH7Q5vqs3bV8eDPzsW7Bs-q0Ou1as3RqGl9w/exec",
+    PHOTOS_LIMIT: 18,
+  
   COUPON_PDF: "assets/coupon/coupon.pdf",              // PDF del coupon (metti il tuo file)
   GALLERY: ["photos/foto1.jpg","photos/foto2.jpg","photos/foto3.jpg"],
   CHATGPT_GALLERY: ["photos/chatgpt1.jpg","photos/chatgpt2.jpg","photos/chatgpt3.jpg"]
