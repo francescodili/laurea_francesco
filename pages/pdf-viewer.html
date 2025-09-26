@@ -63,6 +63,9 @@
     const zinBtn  = document.getElementById('zin');
     const zoutBtn = document.getElementById('zout');
 
+    const wrapEl = document.querySelector('.wrap');   // contenitore scrollabile
+
+
     let pdf, scale = 1.0, canvases = [];
     let firstViewport = null;
 
@@ -123,21 +126,54 @@
       pageInput.value = String(n);
     }
 
+    // Trova il numero di pagina più "vicino" al bordo alto del viewer
+    function detectCurrentPageByScroll(){
+    if (!pdf || canvases.length === 0) return 1;
+    const scrollTop = wrapEl.scrollTop;
+    let best = 1, bestDist = Infinity;
+    canvases.forEach((c, i) => {
+        const dist = Math.abs(c.offsetTop - scrollTop);
+        if (dist < bestDist) { bestDist = dist; best = i + 1; }
+    });
+    return best;
+    }
+
+    // Aggiorna input e abilitazione frecce in base allo scroll
+    let rafId = null;
+    function syncPageFromScroll(){
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+        const n = detectCurrentPageByScroll();
+        if (parseInt(pageInput.value, 10) !== n) {
+        pageInput.value = String(n);
+        prevBtn.disabled = (n <= 1);
+        nextBtn.disabled = (n >= pdf.numPages);
+        }
+    });
+    }
+
+
     // Controlli
     prevBtn.onclick = ()=>{
       const n = Math.max(1, parseInt(pageInput.value||'1',10) - 1);
       scrollToPage(n);
+      syncPageFromScroll();
     };
     nextBtn.onclick = ()=>{
       const n = Math.min(pdf.numPages, parseInt(pageInput.value||'1',10) + 1);
       scrollToPage(n);
+      syncPageFromScroll();
     };
     pageInput.addEventListener('change', ()=>{
       let n = parseInt(pageInput.value||'1',10);
       if(isNaN(n)) n = 1;
       n = Math.min(Math.max(1,n), pdf.numPages);
       scrollToPage(n);
+      syncPageFromScroll();
     });
+
+    wrapEl.addEventListener('scroll', syncPageFromScroll);
+
 
     fitBtn.onclick  = async ()=>{ scale = computeFitScale(); await renderAll(); scrollToPage(parseInt(pageInput.value||'1',10)); };
     zinBtn.onclick  = async ()=>{ scale = Math.min(4,   +(scale + 0.15).toFixed(2)); await renderAll(); scrollToPage(parseInt(pageInput.value||'1',10)); };
@@ -165,6 +201,7 @@
       scale = computeFitScale();          // mostra subito l’intera pagina a4
       await renderAll();
       scrollToPage(1);
+      syncPageFromScroll();
     })().catch(err=>{
       document.body.innerHTML = '<div style="padding:16px;font:14px ui-sans-serif,system-ui">Anteprima non disponibile. Assicurati che il PDF sia caricato correttamente nel repository.</div>';
       console.error(err);
