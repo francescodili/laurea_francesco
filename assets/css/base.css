@@ -106,23 +106,29 @@ body{
   display:grid; gap:12px; align-items:center;
 }
 
-/* NUOVO: contenitore background per avere un banner pieno senza bande nere */
+/* Banner responsive: sempre visibile anche su mobile */
 .hero .hero-media{
   width:100%;
   border-radius:14px;
   border:1px solid var(--stroke);
-  height:100%;                 /* più alto su mobile */
-  background-position:center;
-  background-size:cover;
-  background-repeat:no-repeat;
+  /* Mobile-first: area visibile garantita */
+  aspect-ratio: 16 / 9;
+  min-height: 240px;                  /* puoi portarla a 280/300 se vuoi più grande */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   box-shadow:0 10px 24px rgba(0,0,0,.35);
 }
 
-@media(min-width:900px){
+/* Desktop/large: altezza fissa elegante, ignorando l'aspect-ratio */
+@media (min-width: 900px){
   .hero .hero-media{
-    height:550px;               /* ancora più alto su schermi grandi */
+    aspect-ratio: auto;
+    min-height: 0;
+    height: 550px;
   }
 }
+
 
 .hero h1{font-size:clamp(22px,4vw,34px); margin:0}
 .hero p{margin:6px 0 0; color:#dbeafe}
@@ -170,3 +176,31 @@ body{
 /* Spazio tra il bottone di download e il frame */
 .pdf-viewer .pdf-toolbar{ margin-bottom:30px; }
 .pdf-iframe-wrap{ margin-top:6px; }  /* se stai usando l'iframe al viewer */
+
+
+
+/* ===== Chat bubbles ===== */
+.chat-thread{
+  display:flex; flex-direction:column; gap:10px; margin-bottom:12px;
+}
+.msg{
+  display:flex; gap:10px; align-items:flex-start;
+}
+.msg .avatar{
+  flex:0 0 34px; height:34px; border-radius:50%;
+  display:grid; place-items:center; font-weight:800; font-size:14px;
+  color:#09111f; background:linear-gradient(90deg,var(--accent),var(--accent2));
+}
+.msg .bubble{
+  max-width:min(700px, 100%); padding:10px 12px; border-radius:12px;
+  border:1px solid var(--stroke); line-height:1.5;
+  background:#0a0f1b; color:#e5e7eb;
+  box-shadow:0 8px 18px rgba(0,0,0,.25);
+}
+.msg.user .bubble{
+  background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);
+}
+.time{ display:block; font-size:11px; color:#9ca3af; margin-top:4px; }
+
+.quick-prompts{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 2px}
+.chip.big{font-size:12px; padding:8px 10px; cursor:pointer}

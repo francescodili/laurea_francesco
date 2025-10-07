@@ -10,7 +10,7 @@ const routes = [
   { id:"ruota",   title:"Ruota",               file:"pages/ruota.html",   after: initRuota },
   { id:"tesi",    title:"Tesi",                file:"pages/tesi.html",    after: initTesi },
   { id:"foto",    title:"Foto",                file:"pages/foto.html",    after: initFoto },
-  { id:"chatgpt", title:"ChatGPT",             file:"pages/chatgpt.html", after: null },
+  { id:"chatgpt", title:"ChatGPT",             file:"pages/chatgpt.html", after: initChatGPT },
   { id:"thanks",  title:"Ringraziamenti",      file:"pages/thanks.html",  after: null },
 ];
 
@@ -92,4 +92,57 @@ function initTesi(){
 
 function initFoto(){
   initGallery();
+}
+
+
+function initChatGPT(){
+  const thread = document.getElementById('chatThread');
+  if(!thread) return;
+
+  // Messaggi seed (carini ma brevi)
+  const seed = [
+    { who:'me',  text:'Ho 20 min: come spiego la complessità di binary search?', t:'ora' },
+    { who:'bot', text:'Parti da “indovina un numero”: ogni tentativo dimezza lo spazio. Nei log2 passi arrivi al bersaglio. Poi formalizzi.', t:'ora' },
+    { who:'me',  text:'Refactor di questa funzione spaghetti?', t:'ieri' },
+    { who:'bot', text:'Estraggo il parsing, rendo pure la logica, nomi chiari, test veloci. Così capisci cosa rompere prima di romperlo 😄', t:'ieri' }
+  ];
+
+  const msgEl = ({who,text,t})=>{
+    const wrap = document.createElement('div');
+    wrap.className = `msg ${who==='me'?'user':'bot'}`;
+    wrap.innerHTML = `
+      <div class="avatar">${who==='me'?'👨‍🎓':'🤖'}</div>
+      <div class="bubble">${text}<span class="time">${t}</span></div>
+    `;
+    return wrap;
+  };
+
+  seed.forEach(m=>thread.appendChild(msgEl(m)));
+
+  // Prompt veloci → aggiungono una coppia Q/A simpatica
+  const replies = {
+    spiega:  'Immagina gli array come scaffali: metti le etichette in ordine e trovi le cose a colpo d’occhio.',
+    refactor:'Piccoli passi: nomi che raccontano, funzioni pure, side-effect confinati. Il futuro te ringrazia.',
+    bug:     'Riproduci, isola, osserva. Poi logga come un poeta: poche righe che dicono tutto.',
+    slide:   '“AI + Trasparenza: modelli veloci, motivazioni chiare.” Minimal, punchy, tuo.'
+  };
+  document.querySelectorAll('.qp').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.dataset.key;
+      thread.appendChild(msgEl({who:'me', text: btn.textContent, t:'adesso'}));
+      thread.appendChild(msgEl({who:'bot', text: replies[key] || 'Done ✅', t:'adesso'}));
+      thread.scrollTop = thread.scrollHeight;
+    });
+  });
+
+  // Piccola galleria “Io + ChatGPT” (usa la stessa di Foto se vuoi)
+  const gal = document.getElementById('galleryChatGPT');
+  if(gal){
+    gal.innerHTML = `
+      <figure class="ph"><img src="assets/img/studio.png" alt="studio"></figure>
+      <figure class="ph"><img src="assets/img/pub.png" alt="negroni"></figure>
+      <figure class="ph"><img src="assets/img/mare.png" alt="mare"></figure>
+      <figure class="ph"><img src="assets/img/birra.png" alt="birra"></figure>
+    `;
+  }
 }

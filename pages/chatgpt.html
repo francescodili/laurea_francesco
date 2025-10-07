@@ -1,25 +1,26 @@
 <div class="card">
-    <h2 class="title"><span class="chip">CHATGPT</span><span>Il mio collaboratore invisibile</span></h2>
-    <p>
-      Dalle esercitazioni alla tesi: ChatGPT è stato <strong>sparring partner</strong> per idee,
-      <strong>debugger</strong> di notte e <strong>editor</strong> per slide e testi.
-    </p>
-    <div class="timeline">
-      <div class="t-item"><span class="t-badge">Anno 1</span> Algoritmi e strutture dati, spiegazioni passo-passo.</div>
-      <div class="t-item"><span class="t-badge">Anno 2</span> Progetti Python/ML, test e best practice.</div>
-      <div class="t-item"><span class="t-badge">Magistrale</span> Architettura ranking + validatore LLM, explainability.</div>
-      <div class="t-item"><span class="t-badge">Presentazione</span> Slide, storytelling tecnico, prove orali.</div>
-    </div>
-    <ul class="bullet">
-      <li><strong>Codice</strong>: esempi pronti, refactor, naming pulito.</li>
-      <li><strong>Ricerca</strong>: confronti tra approcci, piani di esperimenti.</li>
-      <li><strong>Comunicazione</strong>: abstract, README, email.</li>
-    </ul>
-  
-    <h3 class="mt">Galleria “Io + ChatGPT”</h3>
-    <p class="tiny muted">Spazio per le foto ricordo con il tuo assistente digitale 😉</p>
-    <div class="gallery" id="galleryChatGPT"></div>
-  
-    <blockquote class="quote">“Ogni commit racconta una storia. Alcuni li ho scritti di notte, altri con ChatGPT come copilota.”</blockquote>
+  <h2 class="title"><span class="chip">CHATGPT</span><span>Il mio collaboratore invisibile</span></h2>
+  <p class="muted" style="margin-bottom:10px">
+    Non un oracolo, un <em>compagno di laboratorio</em>: idee al volo, rifattorizzazioni notturne, pep-talk pre-esame.
+  </p>
+
+  <!-- Thread “noi due” -->
+  <div class="chat-thread" id="chatThread" aria-live="polite">
+    <!-- i messaggi iniziali li inietto via JS -->
   </div>
-  
+
+  <!-- Prompt veloci -->
+  <div class="quick-prompts">
+    <button class="chip big qp" data-key="spiega">Spiegamelo come ho 5 anni 👶</button>
+    <button class="chip big qp" data-key="refactor">Refactor elegante ✨</button>
+    <button class="chip big qp" data-key="bug">Perché crasha? 🐞</button>
+    <button class="chip big qp" data-key="slide">Titolo figo per le slide 🎤</button>
+  </div>
+
+  <!-- Galleria “io + ChatGPT” -->
+  <h3 class="mt">Io + ChatGPT</h3>
+  <p class="tiny muted">Spazio per le foto ricordo con il tuo assistente digitale 😉</p>
+  <div class="gallery pro" id="galleryChatGPT"></div>
+
+  <blockquote class="quote">“Non fa magia: accelera la curiosità. Il resto lo mette l’Ingegnere.”</blockquote>
+</div>
