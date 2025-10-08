@@ -106,26 +106,43 @@ body{
   display:grid; gap:12px; align-items:center;
 }
 
-/* Banner responsive: sempre visibile anche su mobile */
-.hero .hero-media{
-  width:100%;
-  border-radius:14px;
-  border:1px solid var(--stroke);
-  /* Mobile-first: area visibile garantita */
-  aspect-ratio: 16 / 9;
-  min-height: 240px;                  /* puoi portarla a 280/300 se vuoi più grande */
+/* --- HERO IMAGE RESPONSIVE FIX --- */
+.hero .hero-media {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  box-shadow:0 10px 24px rgba(0,0,0,.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+
+  /* 👇 regole mobile */
+  height: auto;
+  aspect-ratio: auto;
+  min-height: 220px;
+  overflow: hidden;
 }
 
-/* Desktop/large: altezza fissa elegante, ignorando l'aspect-ratio */
-@media (min-width: 900px){
-  .hero .hero-media{
-    aspect-ratio: auto;
-    min-height: 0;
+/* 📱 Adattamento perfetto su schermi piccoli */
+@media (max-width: 600px) {
+  .hero .hero-media {
+    width: calc(100% + 32px); /* annulla padding del card */
+    margin-left: -16px;       /* spinge ai bordi */
+    border-radius: 0;         /* bordo dritto come un banner */
+    min-height: 200px;
+    height: 45vh;             /* adatta proporzionalmente alla viewport */
+    background-position: center top;
+  }
+}
+
+/* 💻 Desktop */
+@media (min-width: 900px) {
+  .hero .hero-media {
     height: 550px;
+    border-radius: 14px;
+    width: 100%;
+    margin-left: 0;
   }
 }
 
