@@ -1,31 +1,94 @@
 <div class="card">
-    <h2 class="title"><span class="chip">RINGRAZIAMENTI</span><span>Alle persone che hanno contato</span></h2>
-    <div class="zigzag">
-      <!-- Riga 1 (foto sx / testo dx) -->
-      <div class="zz-row odd">
-        <div class="zz-img"><img src="photos/thanks1.jpg" alt="Grazie 1"></div>
-        <div class="zz-text">
-          <h3>Famiglia</h3>
-          <p>Per la fiducia, i pranzi domenicali e l’amore che ha retto tutto il percorso.</p>
-        </div>
-      </div>
-      <!-- Riga 2 (foto dx / testo sx) -->
-      <div class="zz-row even">
-        <div class="zz-img"><img src="photos/thanks2.jpg" alt="Grazie 2"></div>
-        <div class="zz-text">
-          <h3>Amici</h3>
-          <p>Per i meme alle 3 di notte, gli appunti condivisi e i brindisi (programmati e non).</p>
-        </div>
-      </div>
-      <!-- Riga 3 -->
-      <div class="zz-row odd">
-        <div class="zz-img"><img src="photos/thanks3.jpg" alt="Grazie 3"></div>
-        <div class="zz-text">
-          <h3>Docenti e Mentori</h3>
-          <p>Per le sfide, le dritte giuste e l’esempio di curiosità che cercherò di portare avanti.</p>
-        </div>
+  <h2 class="title"><span class="chip">RINGRAZIAMENTI</span><span>Alle persone che hanno contato</span></h2>
+
+  <!-- 🔽 filtro "Chi sei?" -->
+  <div class="zz-filter">
+    <label for="whoSelect" class="tiny muted">Chi sei?</label>
+    <select id="whoSelect" class="select">
+      <option value="">Seleziona…</option>
+      <option>Amici</option>
+      <option>Claudia</option>
+      <option>Kora</option>
+      <option>Mamma</option>
+      <option>Martina</option>
+      <option>Nonna</option>
+      <option>Papà</option>
+      <option>Scout</option>
+      <option>Altro</option>
+    </select>
+  </div>
+
+  <div class="zigzag">
+    <!-- Riga 1 -->
+    <div class="zz-row odd" data-cat="Mamma e papà">
+      <div class="zz-img"><img src="media/mamaypapa.jpg" alt="Mamma e papà"></div>
+      <div class="zz-text">
+        <h3>Mamma e papà</h3>
+        <p>Per la fiducia, i pranzi domenicali e l’amore che ha retto tutto il percorso.</p>
       </div>
     </div>
-    <p class="tiny muted" style="margin-top:10px">Suggerimento: sostituisci le immagini e i testi con i tuoi. Le righe alternate si adattano automaticamente.</p>
+
+    <!-- Riga 2 -->
+    <div class="zz-row even" data-cat="Martina">
+      <div class="zz-img"><img src="media/marti.jpg" alt="Martina"></div>
+      <div class="zz-text">
+        <h3>Martina</h3>
+        <p>Per i meme alle 3 di notte, gli appunti condivisi e i brindisi (programmati e non).</p>
+      </div>
+    </div>
+
+    <!-- Riga 3 -->
+    <div class="zz-row odd" data-cat="Claudietta">
+      <div class="zz-img"><img src="media/cla.jpg" alt="Claudietta"></div>
+      <div class="zz-text">
+        <h3>Claudietta</h3>
+        <p>Per le sfide, le dritte giuste e l’esempio di curiosità che cercherò di portare avanti.</p>
+      </div>
+    </div>
+
+    <!-- Riga 4 -->
+    <div class="zz-row even" data-cat="Concy">
+      <div class="zz-img"><img src="media/nona.jpg" alt="Concy"></div>
+      <div class="zz-text">
+        <h3>Concy</h3>
+        <p>Per i meme alle 3 di notte, gli appunti condivisi e i brindisi (programmati e non).</p>
+      </div>
+    </div>
+
+    <!-- Riga 5 -->
+    <div class="zz-row odd" data-cat="Amici">
+      <div class="zz-img"><img src="media/friend.png" alt="Amici"></div>
+      <div class="zz-text">
+        <h3>Amici</h3>
+        <p>Per le sfide, le dritte giuste e l’esempio di curiosità che cercherò di portare avanti.</p>
+      </div>
+    </div>
+
+    <!-- Riga 6 -->
+    <div class="zz-row even" data-cat="Scout">
+      <div class="zz-img"><img src="media/bohscout.jpg" alt="Scout"></div>
+      <div class="zz-text">
+        <h3>Scout</h3>
+        <p>Per i meme alle 3 di notte, gli appunti condivisi e i brindisi (programmati e non).</p>
+      </div>
+    </div>
+
+   <!-- Riga 7 -->
+    <div class="zz-row odd" data-cat="Kora">
+      <div class="zz-img"><img src="media/kora.jpg" alt="Kora"></div>
+      <div class="zz-text">
+        <h3>Kora</h3>
+        <p>Per le sfide, le dritte giuste e l’esempio di curiosità che cercherò di portare avanti.</p>
+      </div>
+    </div>
+
+    <!-- Riga 8 (era fuori, ora dentro) -->
+    <div class="zz-row even" data-cat="Altro">
+      <div class="zz-img"><img src="media/tutti.png" alt="Altro"></div>
+      <div class="zz-text">
+        <h3>Altro</h3>
+        <p>Per i meme alle 3 di notte, gli appunti condivisi e i brindisi (programmati e non).</p>
+      </div>
+    </div>
   </div>
-  
+</div>

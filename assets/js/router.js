@@ -11,7 +11,7 @@ const routes = [
   { id:"tesi",    title:"Tesi",                file:"pages/tesi.html",    after: initTesi },
   { id:"foto",    title:"Foto",                file:"pages/foto.html",    after: initFoto },
   { id:"chatgpt", title:"ChatGPT",             file:"pages/chatgpt.html", after: initChatGPT },
-  { id:"thanks",  title:"Ringraziamenti",      file:"pages/thanks.html",  after: null },
+  { id:"thanks",  title:"Ringraziamenti",      file:"pages/thanks.html",  after: initThanks },
 ];
 
 export function getRoutes(){ return routes; }
@@ -145,4 +145,82 @@ function initChatGPT(){
       <figure class="ph"><img src="assets/img/birra.png" alt="birra"></figure>
     `;
   }
+}
+
+
+
+function initThanks(){
+  const sel = document.getElementById('whoSelect');
+  const zig = document.querySelector('.zigzag');
+  if(!sel || !zig) return;
+
+  // 1) Foto/righe originali (snapshot) e rimozione iniziale → niente righe finché non si sceglie
+  const original = Array.from(zig.querySelectorAll('.zz-row'));
+  original.forEach(r => r.remove());
+
+  // Messaggio guida
+  let hint = document.getElementById('zzHint');
+  if(!hint){
+    hint = document.createElement('p');
+    hint.id = 'zzHint';
+    hint.className = 'tiny muted';
+    hint.style.margin = '4px 0 0';
+    hint.textContent = 'Seleziona chi sei per vedere il tuo ringraziamento in cima 🫶';
+    zig.before(hint);
+  }
+
+  // Utility: shuffle in-place (Fisher–Yates)
+  const shuffle = arr => {
+    for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+    return arr;
+  };
+
+  // Mappa dal valore del menù al data-cat reale
+  const mapWhoToDataCat = (val)=>{
+    const k = String(val||'').trim().toLowerCase();
+    if (k==='mamma') return 'Mamma e papà';
+    if (k==='papà' || k==='papa') return 'Mamma e papà';
+    if (k==='martina') return 'Martina';
+    if (k==='claudia') return 'Claudietta';
+    if (k==='nonna')   return 'Concy';
+    if (k==='amici' || k==='amico' || k==='amica') return 'Amici';
+    if (k==='scout' || k==='bohscout') return 'Scout';
+    if (k==='kora')    return 'Kora';
+    if (k==='altro')   return 'Altro';
+    return '';
+  };
+
+  function renderFor(cat){
+    // Svuota contenitore
+    zig.innerHTML = '';
+
+    if(!cat){ // nessuna scelta: solo messaggio
+      hint.style.display = 'block';
+      return;
+    }
+    hint.style.display = 'none';
+
+    const match = original.filter(r => r.dataset.cat === cat);
+    const rest  = original.filter(r => r.dataset.cat !== cat);
+
+    // Ordine: scelto (se esiste) + resto randomico
+    const ordered = [...match, ...shuffle(rest.slice())];
+
+    // Ricostruisci zig-zag e highlight del primo
+    ordered.forEach((row, i) => {
+      row.classList.remove('odd','even','highlight');
+      row.classList.add(i % 2 === 0 ? 'odd' : 'even');
+      zig.appendChild(row);
+    });
+    if (ordered.length) ordered[0].classList.add('highlight');
+  }
+
+  // Stato iniziale: nessuna riga visibile
+  renderFor('');
+
+  // On change → mostra
+  sel.addEventListener('change', ()=>{
+    const target = mapWhoToDataCat(sel.value);
+    renderFor(target);
+  });
 }

@@ -153,17 +153,63 @@ body{
 
 /* ---------- Ringraziamenti (zigzag responsive) ---------- */
 .zigzag{display:grid; gap:14px}
-.zz-row{
-  display:grid; gap:12px; align-items:center;
-  grid-template-columns:1fr; /* mobile */
+/* --- Riga zigzag migliorata (adatta box all’immagine) --- */
+/* --- Ringraziamenti compatti (mezze dimensioni ma stesse proporzioni) --- */
+.zz-row {
+  display: grid;
+  gap: 10px;
+  align-items: stretch;
+  grid-template-columns: 1fr;  /* mobile: impilato */
+  margin-bottom: 12px;
+  transform: scale(0.95);      /* riduce leggermente tutto */
+  transform-origin: top center;
 }
-.zz-img{border-radius:14px; overflow:hidden; border:1px solid var(--stroke)}
-.zz-img img{width:100%; height:220px; object-fit:cover; display:block}
-.zz-text{background:#0a0f1b; border:1px dashed #23314f; border-radius:12px; padding:12px}
-@media(min-width:800px){
-  .zz-row{grid-template-columns:1fr 1fr}
-  .zz-row.even .zz-img{order:2}
-  .zz-row.even .zz-text{order:1}
+
+/* contenitore immagine */
+.zz-img {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--stroke);
+  display: flex;
+}
+
+/* immagine adattiva, proporzioni mantenute */
+.zz-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;          /* 🔥 forza proporzioni regolari */
+}
+
+/* box testo compatto e centrato */
+.zz-text {
+  background: #0a0f1b;
+  border: 1px dashed #23314f;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* desktop view (due colonne proporzionali ma più piccole) */
+@media (min-width: 800px) {
+  .zz-row {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    margin-bottom: 10px;
+    transform: scale(0.9);      /* 🔥 dimezza visivamente altezza complessiva */
+  }
+
+  .zz-row.even .zz-img { order: 2; }
+  .zz-row.even .zz-text { order: 1; }
+
+  .zz-img img {
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 /* ---------- Coupon ---------- */
@@ -221,3 +267,35 @@ body{
 
 .quick-prompts{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 2px}
 .chip.big{font-size:12px; padding:8px 10px; cursor:pointer}
+
+
+/* --- Filtro "Chi sei?" versione XL --- */
+.zz-filter{
+  display:grid; gap:6px; margin:14px 0 8px;
+}
+.zz-filter label{ font-size:12px; color:var(--muted) }
+
+.zz-filter .select{
+  width:100%;
+  padding:14px 16px;
+  font-size:16px; font-weight:700; letter-spacing:.2px;
+  border:1px solid var(--stroke);
+  border-radius:14px;
+  background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);
+  color:#e5e7eb;
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
+}
+
+/* Stile interno delle opzioni del menù a tendina */
+.zz-filter .select option {
+  color: #e5e7eb;                     /* colore testo chiaro */
+  background-color: #0b1220;          /* sfondo scuro coerente col tema */
+  font-weight: 600;
+  padding: 10px 12px;
+}
+
+/* Hover sugli option (funziona su Chrome e Firefox, non su Safari mobile) */
+.zz-filter .select option:hover {
+  background-color: #1f2937;          /* leggermente più chiaro sul passaggio */
+  color: #ffffff;
+}
