@@ -363,3 +363,60 @@ img,svg,video,canvas,iframe{ max-width:100%; height:auto; display:block; }
 
 .pdf-viewer .btn.ghost:hover{ border-color:#3a4f7b; background:#0e1626; }
 
+/* Titoli card: gestisci wrap e allineamento del chip su mobile */
+.card .title{
+  display:flex;
+  align-items:baseline;      /* testo e chip allineati meglio */
+  gap:10px;
+  flex-wrap:wrap;            /* evita sfori laterali su mobile */
+  line-height:1.2;
+}
+
+/* il chip non si deforma e resta dentro i bordi del titolo */
+.card .title .chip{
+  flex:0 0 auto;
+  align-self:center;         /* centra verticalmente rispetto al testo */
+}
+
+/* evita sfori del titolo lungo su telefoni stretti */
+.card .title span:last-child{
+  overflow-wrap:anywhere;    /* manda a capo parole lunghe */
+  max-width:100%;
+}
+
+
+/* Centra davvero la ruota */
+.wheel-area{
+  display:grid;
+  place-items:center;
+}
+.wheel-shell{
+  margin-inline:auto;      /* ✅ centra il contenitore */
+}
+
+/* Mobile: ruota più piccola e label più vicine al centro */
+@media (max-width: 600px){
+  .wheel-shell{
+    width: min(92vw, 360px);   /* leggermente più compatta su schermi piccoli */
+  }
+  .wheel{
+    margin: 0 auto;            /* sicurezza */
+  }
+
+  /* Etichette più verso il centro */
+  .segment-label{
+    width: calc(50% - 46px);   /* 🔧 riducendo la “gittata” le avvicini al centro */
+    padding-right: 8px;
+    font-size: 11px;
+  }
+  .segment-label.left{
+    padding-left: 8px;
+  }
+
+  /* puntatore un filo più piccolo su mobile */
+  .pointer{
+    border-left:14px solid transparent;
+    border-right:14px solid transparent;
+    border-bottom:22px solid var(--accent);
+  }
+}
