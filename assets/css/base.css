@@ -405,7 +405,6 @@ img,svg,video,canvas,iframe{ max-width:100%; height:auto; display:block; }
 
   /* Etichette più verso il centro */
   .segment-label{
-    width: calc(50% - 46px);   /* 🔧 riducendo la “gittata” le avvicini al centro */
     padding-right: 8px;
     font-size: 11px;
   }
