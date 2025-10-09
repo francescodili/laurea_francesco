@@ -467,3 +467,108 @@ img,svg,video,canvas,iframe{ max-width:100%; height:auto; display:block; }
     border-bottom:22px solid var(--accent);
   }
 }
+
+
+/* ——— Rimuovi del tutto l'highlight del riquadro ——— */
+.zz-row.highlight{
+  outline: none !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+/* ——— Box testo accanto all’immagine: più pulito ——— */
+.zz-text{
+  background: linear-gradient(180deg,#0c1322 0%, #0a101c 100%);
+  border: 1px solid rgba(255,255,255,.06);   /* niente tratteggio */
+  border-radius: 12px;
+  padding: 14px 16px;
+  line-height: 1.55;
+  color: #e6eefc;
+  box-shadow: 0 8px 24px rgba(0,0,0,.28);
+}
+
+/* micro-accento a sinistra, sottile */
+.zz-text::before{
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 12px 0 0 12px;
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  /* rimuove la vecchia maschera/bordo decorativo */
+  -webkit-mask: none;
+  mask: none;
+  padding: 0;
+  z-index: 0;
+}
+
+/* contenuto sopra l’accento */
+.zz-text > *{ position: relative; z-index: 1; }
+
+/* Titolo sezione più presente ma sobrio */
+.zz-text h3{
+  margin: 0 0 6px;
+  font-size: clamp(18px, 2.2vw, 20px);
+  font-weight: 900;
+  letter-spacing: .2px;
+  color: #f1f5ff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
+
+/* Paragrafi più ariosi */
+.zz-text p{
+  margin: 6px 0 0;
+  color: #cfe0ff;                /* contrasto migliore */
+}
+
+/* spazio interno più “respirante” su desktop */
+@media (min-width: 800px){
+  .zz-text{ padding: 16px 18px; }
+}
+
+
+/* 1) Nomi centrati in tutte le card testo */
+.zz-text h3{
+  text-align:center;
+}
+
+/* 2) Card "Altro" -> layout centrato e "GRAZIE!!" gigante */
+.zz-row[data-cat="Altro"] .zz-text{
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding: clamp(14px, 3vw, 22px);
+}
+
+/* Titolino "Altro" compatto */
+.zz-row[data-cat="Altro"] .zz-text h3{
+  margin: 0 0 8px;
+  font-weight: 900;
+  letter-spacing: .6px;
+  font-size: clamp(20px, 3.2vw, 28px);
+  color: #eaf2ff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
+
+/* Testo "GRAZIE!!" che riempie lo spazio */
+.zz-row[data-cat="Altro"] .zz-text p{
+  margin: 0;
+  font-weight: 1000;
+  line-height: .95;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+
+  /* dimensione grande ma responsiva: quasi tutto il box */
+  font-size: clamp(44px, 10vw, 100px);
+
+  /* gradiente sul testo */
+  background: linear-gradient(90deg, #22d3ee, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* leggera ombra per staccare sul fondo scuro */
+  text-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+
+

@@ -94,58 +94,115 @@ function initFoto(){
   initGallery();
 }
 
-
 function initChatGPT(){
   const thread = document.getElementById('chatThread');
   if(!thread) return;
 
-  // Messaggi seed (carini ma brevi)
-  const seed = [
-    { who:'me',  text:'Ho 20 min: come spiego la complessità di binary search?', t:'ora' },
-    { who:'bot', text:'Parti da “indovina un numero”: ogni tentativo dimezza lo spazio. Nei log2 passi arrivi al bersaglio. Poi formalizzi.', t:'ora' },
-    { who:'me',  text:'Refactor di questa funzione spaghetti?', t:'ieri' },
-    { who:'bot', text:'Estraggo il parsing, rendo pure la logica, nomi chiari, test veloci. Così capisci cosa rompere prima di romperlo 😄', t:'ieri' }
-  ];
-
-  const msgEl = ({who,text,t})=>{
+  // ---- helper ----
+  const elMsg = ({who, html, t})=>{
     const wrap = document.createElement('div');
-    wrap.className = `msg ${who==='me'?'user':'bot'}`;
+    wrap.className = `msg ${who==='me' ? 'user' : 'bot'}`;
     wrap.innerHTML = `
-      <div class="avatar">${who==='me'?'👨‍🎓':'🤖'}</div>
-      <div class="bubble">${text}<span class="time">${t}</span></div>
+      <div class="avatar">${who==='me' ? '👨‍🎓' : '🤖'}</div>
+      <div class="bubble">${html}<span class="time">${t||'adesso'}</span></div>
     `;
     return wrap;
   };
-
-  seed.forEach(m=>thread.appendChild(msgEl(m)));
-
-  // Prompt veloci → aggiungono una coppia Q/A simpatica
-  const replies = {
-    spiega:  'Immagina gli array come scaffali: metti le etichette in ordine e trovi le cose a colpo d’occhio.',
-    refactor:'Piccoli passi: nomi che raccontano, funzioni pure, side-effect confinati. Il futuro te ringrazia.',
-    bug:     'Riproduci, isola, osserva. Poi logga come un poeta: poche righe che dicono tutto.',
-    slide:   '“AI + Trasparenza: modelli veloci, motivazioni chiare.” Minimal, punchy, tuo.'
+  const push = (who, html, t)=>{
+    thread.appendChild(elMsg({who, html, t}));
+    thread.scrollTop = thread.scrollHeight;
   };
+
+  // ---- seed: loan vs mortgage (HTML, no markdown) ----
+  const seed = [
+    { who:'me',  html:'ChatGPT, qual è la differenza tra <em>loan</em> e <em>mortgage</em>?', t:'ora' },
+    { who:'bot', html:
+      '📘 <strong>Loan</strong> è un prestito generico — può essere per comprare un’auto, finanziare gli studi o un progetto.<br>' +
+      '🏠 <strong>Mortgage</strong>, invece, è un prestito garantito da un’ipoteca su un immobile: la casa fa da garanzia.<br><br>' +
+      'In breve: ogni <em>mortgage</em> è un <em>loan</em>, ma non ogni <em>loan</em> è un <em>mortgage</em>.',
+      t:'ora'
+    },
+    { who:'me',  html:'Ok, e spiegamelo come se fossi un bimbo di 5 anni!', t:'ora' },
+    { who:'bot', html:
+      'Immagina che ti presti dei mattoncini LEGO.<br>' +
+      '• <em>Loan</em>: te li presto e poi me li ridai piano piano.<br>' +
+      '• <em>Mortgage</em>: te li presto <strong>per costruire una casa</strong>; se non me li ridai, la casetta diventa mia. 🧱💸',
+      t:'ora'
+    }
+  ];
+  seed.forEach(m=>push(m.who, m.html, m.t));
+
+// ---- risposte dinamiche con random + disclaimer + spiegazioni ----
+const jokes = [
+  'Sai perché i programmatori odiano la natura? 🌳<br>Troppi bug! 🐞',
+  'Perché i programmatori preferiscono il buio? 🌙<br>Perché la luce attira i bug!',
+  'Cosa hanno in comune un computer e un condizionatore? 💻❄️<br>Dopo aver aperto Windows, smettono di funzionare.',
+  // ✅ Battuta con spiegazione estesa
+  'Perché i programmatori confondono Halloween e Natale? 🎃🎄<br>' +
+  'Perché Oct 31 = Dec 25.<br>' +
+  '<small class="muted">Spiegazione: “Oct” significa base 8 (ottale) e “Dec” base 10 (decimale).<br>' +
+  'In base 8, il numero 31 equivale a 3×8 + 1 = 25 in base 10.<br>' +
+  'Quindi “Oct 31” e “Dec 25” rappresentano lo stesso valore numerico! 🧮</small>',
+  'Sai perché i programmatori bevono tanto caffè? ☕<br>Perché dormire è per chi non ha errori nel codice!'
+];
+
+const proverbs = [
+  'Un saggio cinese disse:<br>“Uomo che corre davanti a macchina... si stanca.<br>Uomo che corre dietro a macchina... si sfinisce.” 🥢',
+  'Antico detto cinese:<br>“Uomo con un solo bastoncino... resta affamato.” 🍜',
+  'Saggio cinese disse:<br>“Chi guida come l’inferno... prima o poi ci arriva.” 🚗💨',
+  'Un vecchio maestro disse:<br>“Quando il codice non funziona... ringrazia, ti sta insegnando qualcosa.” 🧘‍♂️',
+  'Proverbio del monte Huang:<br>“Uomo che copia e incolla bene... non fatica due volte.” 🈶️'
+];
+
+function joke() {
+  const j = jokes[Math.floor(Math.random() * jokes.length)];
+  return j + '<br><small class="muted">DISCLAIMER: generata da ChatGPT, per questo non fa ridere.</small>';
+}
+
+function advice() {
+  const p = proverbs[Math.floor(Math.random() * proverbs.length)];
+  return p + '<br><small class="muted">DISCLAIMER: generata da ChatGPT, per questo non fa ridere.</small>';
+}
+
+
+
+
+  const flip = () => {
+    const side = Math.random() < 0.5 ? 'Testa' : 'Croce';
+    return '“Testa o croce?” — Cosa c’entra, Ingegnere Bellissimo? 🤨<br>Comunque... <strong>'+side+'</strong>! 🪙';
+  };
+
+  const pep = () =>
+    'Focus per 25 minuti, respiro e via.<br>' +
+    '• Fai una cosa piccola ma utile;<br>' +
+    '• Scrivi log chiari come se li leggessi domani;<br>' +
+    '• La perfezione arriva col refactor, non al primo commit. 💪';
+
+  const handlers = {
+    joke:  () => joke(),
+    advice: () => advice(),
+    flip:  () => flip(),
+    pep:   () => pep()
+  };
+
+  // bottoni quick prompts
   document.querySelectorAll('.qp').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const key = btn.dataset.key;
-      thread.appendChild(msgEl({who:'me', text: btn.textContent, t:'adesso'}));
-      thread.appendChild(msgEl({who:'bot', text: replies[key] || 'Done ✅', t:'adesso'}));
-      thread.scrollTop = thread.scrollHeight;
+      push('me', btn.textContent.trim());
+      const reply = (handlers[key] && handlers[key]()) || 'Uh? Proviamo con qualcosa di più tecnico 😅';
+      push('bot', reply);
     });
   });
 
-  // Piccola galleria “Io + ChatGPT” (usa la stessa di Foto se vuoi)
-  const gal = document.getElementById('galleryChatGPT');
-  if(gal){
-    gal.innerHTML = `
-      <figure class="ph"><img src="assets/img/studio.png" alt="studio"></figure>
-      <figure class="ph"><img src="assets/img/pub.png" alt="negroni"></figure>
-      <figure class="ph"><img src="assets/img/mare.png" alt="mare"></figure>
-      <figure class="ph"><img src="assets/img/birra.png" alt="birra"></figure>
-    `;
-  }
+  // easter egg: click su 🤖
+  thread.addEventListener('click', (e)=>{
+    if(e.target?.classList.contains('avatar') && e.target.textContent === '🤖'){
+      push('bot', 'Sto già compilando la tua autostima… done ✅');
+    }
+  });
 }
+
 
 
 
