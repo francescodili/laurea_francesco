@@ -1,3 +1,13 @@
+/* === Parametri regolabili === */
+:root{
+  /* distanza del testo dal centro (mozzo) */
+  --wheel-label-gap-center: 32px;
+
+  /* distanza del testo dal bordo esterno (usa la modalità .gap-edge) */
+  --wheel-label-gap-edge: 24px;
+}
+
+
 /* Stili solo per la ruota */
 .wheel-area{
   display:grid;
@@ -58,16 +68,16 @@
 }
 
 /* Etichetta radiale “pulita”: il JS ruota .segment-label; qui curiamo spazi e leggibilità */
+/* prima avevi: width: calc(50% - ...);  */
 .segment-label{
   position:absolute;
   left:50%; top:50%;
   transform-origin:50% 50%;
   pointer-events:none;
-
-  /* 🔧 distanza dal centro: più piccolo => più vicino al mozzo
-     Usando clamp resta proporzionale a qualunque diametro */
-  width: calc(50%  90px);  /* ✅ richiesta */
+  /* NIENTE width qui: la distanza la gestisce il JS con translateX(...) */
+  width: auto; /* opzionale, per chiarezza */
 }
+
 .segment-label .label-text{
   display:block;
   padding:0 10px;
@@ -82,7 +92,7 @@
 /* Mobile: ruota = 75vw e fine degli sfori */
 @media (max-width:600px){
   .wheel-shell{
-    width: 75vw;                         /* ✅ richiesta */
+    width: 80vw;                         /* ✅ richiesta */
     max-width: calc(100vw - 32px);       /* no overflow nella card */
     margin-inline:auto;
   }
@@ -90,9 +100,6 @@
   .wheel{ border-width:8px; }
   .wheel:after{ inset:8px; }
 
-  .segment-label{
-    width: calc(50% - clamp(36px, 8vw, 64px));  /* etichette un filo più interne */
-  }
   .segment-label .label-text{
     padding:0 6px;
     font-size:clamp(10px, 3.2vw, 12px);

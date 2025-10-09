@@ -37,16 +37,28 @@ function drawWheel(){
   // Pulisci vecchie etichette
   wheel.querySelectorAll('.segment-label').forEach(el => el.remove());
 
-  // Etichette a raggiera: ruoto -> traslo sul raggio -> (se a sinistra) giro di 180°
-  const radius = 'calc(170px)'; // distanza dal centro (regola qui quanto stare vicino al bordo)
+  // ====== distanza fissa dal centro (PX) ======
+  // Puoi cambiarla qui, oppure via CSS var --wheel-label-gap-center
+  const cssGap = parseInt(
+    getComputedStyle(document.documentElement)
+      .getPropertyValue('--wheel-label-gap-center')
+  );
+  const GAP_FROM_CENTER = Number.isFinite(cssGap) && cssGap > 64 ? cssGap : 90; 
+
+  // per sicurezza: non superare il bordo
+  const RADIUS_LIMIT = (wheel.offsetWidth || wheel.clientWidth) / 2 - 24;
+  const radiusPx = Math.min(GAP_FROM_CENTER, RADIUS_LIMIT);
+
+  // Etichette a raggiera
   SEGMENTS.forEach((s, i) => {
-    const angle = i * SLICE + SLICE / 2;    // centro dello spicchio
-    const onLeft = angle > 90 && angle < 270;
+    const angle = i * SLICE + SLICE / 2;        // centro dello spicchio
+    const onLeft = angle > 90 && angle < 270;   // emisfero sinistro
 
     const label = document.createElement('div');
     label.className = 'segment-label';
+    // centro -> ruota -> esci lungo il raggio di "radiusPx" -> ribalta sul lato sinistro
     label.style.transform =
-      `translate(-50%,-50%) rotate(${angle}deg) translateX(${radius}) ${onLeft ? 'rotate(180deg)' : ''}`;
+      `translate(-50%,-50%) rotate(${angle}deg) translateX(${radiusPx}px) ${onLeft ? 'rotate(180deg)' : ''}`;
 
     const span = document.createElement('span');
     span.className = 'label-text';
@@ -56,8 +68,6 @@ function drawWheel(){
     wheel.appendChild(label);
   });
 }
-
-
 
 /* Animazione spin */
 function animate(from, to, duration){
