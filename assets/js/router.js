@@ -201,6 +201,23 @@ function advice() {
       push('bot', 'Sto già compilando la tua autostima… done ✅');
     }
   });
+
+    // --- galleria "Io + ChatGPT"
+  const gal = document.getElementById('galleryChatGPT');
+  if (gal) {
+    const pics = Array.isArray(CONFIG.CHATGPT_GALLERY) ? CONFIG.CHATGPT_GALLERY : [];
+    // fallback se l’array è vuoto
+    const sources = pics.length ? pics : [
+      'assets/img/studio.png',
+      'assets/img/pub.png',
+      'assets/img/mare.png',
+      'assets/img/birra.png'
+    ];
+    gal.innerHTML = sources.map((src, i) =>
+      `<figure class="ph"><img src="${src}" alt="Io + ChatGPT ${i+1}"></figure>`
+    ).join('');
+  }
+
 }
 
 
@@ -239,6 +256,7 @@ function initThanks(){
     if (k==='papà' || k==='papa') return 'Mamma e papà';
     if (k==='martina') return 'Martina';
     if (k==='claudia') return 'Claudietta';
+    if (k==='cugini') return 'Cugini';
     if (k==='nonna')   return 'Concy';
     if (k==='amici' || k==='amico' || k==='amica') return 'Amici';
     if (k==='scout' || k==='bohscout') return 'Scout';

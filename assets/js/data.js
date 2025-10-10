@@ -7,7 +7,7 @@ export const CONFIG = {
   
   COUPON_PDF: "assets/coupon/coupon.pdf",              // PDF del coupon (metti il tuo file)
   GALLERY: ["photos/foto1.jpg","photos/foto2.jpg","photos/foto3.jpg"],
-  CHATGPT_GALLERY: ["photos/chatgpt1.jpg","photos/chatgpt2.jpg","photos/chatgpt3.jpg"]
+  CHATGPT_GALLERY: ["assets/img/birra.png","assets/img/mare.png","assets/img/pub.png", "assets/img/studio.png"],
 };
 
 // Più spicchi (macro-temi)
